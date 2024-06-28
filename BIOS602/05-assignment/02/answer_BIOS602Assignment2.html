@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nam-Anh Tran">
+
+<title>BIOS602: Assignment 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="answer_BIOS602Assignment2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="answer_BIOS602Assignment2_files/libs/quarto-html/quarto.js"></script>
+<script src="answer_BIOS602Assignment2_files/libs/quarto-html/popper.min.js"></script>
+<script src="answer_BIOS602Assignment2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="answer_BIOS602Assignment2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="answer_BIOS602Assignment2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="answer_BIOS602Assignment2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="answer_BIOS602Assignment2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="answer_BIOS602Assignment2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="answer_BIOS602Assignment2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="answer_BIOS602Assignment2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">BIOS602: Assignment 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nam-Anh Tran </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="simulations---study-design" class="level1">
+<h1>Simulations - Study Design</h1>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p>We employ the formula of sample size calculation proposed by Schouten <span class="citation" data-cites="schouten1999sample">[<a href="#ref-schouten1999sample" role="doc-biblioref">1</a>]</span> for <em>two means, unequal variances and sample size – independent samples</em> as follows</p>
+<p><span class="math display">\[
+n_1 \ge (Z_{1-\alpha/2} + Z_{1-\beta})^2\frac{(\tau+\gamma)\sigma^2_2}{\gamma(\mu_2-\mu_1)^2}+ \frac{(\tau^2+ \gamma^3)Z_{1-\alpha/2}^2}{2\gamma(\tau+\gamma)^2}, \quad \text{and} \quad n_2\ge\gamma n_1
+\]</span></p>
+<p>where <span class="math inline">\(\tau = \sigma^2_2/\sigma^2_1\)</span> and <span class="math inline">\(\gamma = n_2/n_1\)</span>. Thus</p>
+<p><span class="math display">\[
+Z_{1-\beta} \le \sqrt{\bigg(n - \frac{(\tau^2+ \gamma^3)Z_{1-\alpha/2}^2}{2\gamma(\tau+\gamma)^2}\bigg)\frac{\gamma(\mu_2 - \mu_1)^2}{(\tau+\gamma)\sigma_2^2}} - Z_{1-\alpha/2}
+\]</span> The power is then calculated using the CDF of the standard normal distribution <span class="math inline">\(\Phi(Z)\)</span>. For the sake of simplicity, we assume <span class="math inline">\(\tau = \gamma = 1\)</span>, but the general cases (<span class="math inline">\(\tau,\gamma \ne 1\)</span>) can also be implemented with ease based on the above formula. With the total sample size (both arms) of 100, 500 and 1000, we have:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, kableExtra, simstudy, rsimsum,  survival, eha, SurvRegCensCov, MASS, flexsurv, ggfortify)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">4444</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>CalPower <span class="ot">=</span> <span class="cf">function</span>(n,mu1,mu2, sigma, <span class="at">tau =</span><span class="dv">1</span>, <span class="at">gam =</span> <span class="dv">1</span>, <span class="at">alpha=</span><span class="fl">0.05</span>){</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">=</span> <span class="fu">sqrt</span>((n <span class="sc">-</span> (tau<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span> gam<span class="sc">^</span><span class="dv">3</span>)<span class="sc">*</span><span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">2</span><span class="sc">/</span>gam<span class="sc">/</span>(tau<span class="sc">+</span>gam)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">*</span>gam<span class="sc">*</span>(mu2<span class="sc">-</span>mu1)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(tau<span class="sc">+</span>gam)) <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">round</span>(<span class="fu">pnorm</span>(Z)<span class="sc">*</span><span class="dv">100</span>,<span class="dv">3</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>CalPower <span class="ot">=</span> <span class="fu">Vectorize</span>(CalPower, <span class="at">vectorize.args =</span> <span class="st">"n"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">=</span> (<span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>)<span class="sc">/</span><span class="dv">2</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">set_names</span>()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>power <span class="ot">=</span> <span class="fu">CalPower</span>(<span class="at">n=</span> n1, <span class="at">mu1=</span>  <span class="dv">0</span>,<span class="at">mu2 =</span> <span class="dv">1</span>,<span class="at">sigma =</span> <span class="fu">sqrt</span>(<span class="dv">50</span>), <span class="at">tau =</span> <span class="dv">1</span>, <span class="at">gam =</span> <span class="dv">1</span>); power</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    50    250    500 
+10.450 35.183 60.834 </code></pre>
+</div>
+</div>
+<p>Note that to achieve the power of at least <span class="math inline">\(80\%\)</span>, the sample size per arm is at least <span class="math inline">\(790\)</span>, which is shown below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">=</span> (<span class="fu">seq</span>(<span class="dv">760</span>, <span class="dv">825</span> , <span class="dv">5</span>))<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">set_names</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sim <span class="ot">=</span> <span class="fu">CalPower</span>(<span class="at">n=</span> ss, <span class="at">mu1=</span>  <span class="dv">0</span>,<span class="at">mu2 =</span> <span class="dv">1</span>,<span class="at">sigma =</span> <span class="fu">sqrt</span>(<span class="dv">50</span>), <span class="at">tau =</span> <span class="dv">1</span>, <span class="at">gam =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(sim <span class="sc">&gt;=</span><span class="dv">80</span>, <span class="fu">paste0</span>(sim,<span class="st">"*"</span>), <span class="fu">paste0</span>(sim))<span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>()<span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">sample size</span><span class="st">`</span> <span class="ot">=</span> name, <span class="at">power =</span> value)<span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  {\(i) <span class="fu">kbl</span>(<span class="fu">list</span>(i[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>,], i[<span class="dv">8</span><span class="sc">:</span><span class="dv">14</span>,]) ,<span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)}()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+</div>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>R <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>SimPower <span class="ot">=</span> <span class="cf">function</span>(<span class="at">R=</span><span class="dv">10000</span>, n1, sigma){</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  pow<span class="ot">&lt;-</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replicate</span>(<span class="dv">10000</span>,{</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      y1 <span class="ot">=</span> <span class="fu">rnorm</span>(n1,<span class="dv">0</span>,sigma ); y2 <span class="ot">=</span> <span class="fu">rnorm</span>(n1,<span class="dv">1</span>,sigma)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      Z <span class="ot">=</span> <span class="fu">abs</span>((<span class="fu">mean</span>(y2) <span class="sc">-</span> <span class="fu">mean</span>(y1))<span class="sc">/</span>sigma<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">length</span>(y1) <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">length</span>(y2)))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      Z<span class="sc">&gt;</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      })<span class="sc">|&gt;</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">round</span>(pow<span class="sc">*</span><span class="dv">100</span>,<span class="dv">3</span>))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">=</span> <span class="fu">c</span>(n1, <span class="dv">790</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">set_names</span>()</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(n2, SimPower, <span class="at">R =</span> R, <span class="at">sigma =</span> <span class="fu">sqrt</span>(<span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   50   250   500   790 
+10.98 34.72 60.82 80.65 </code></pre>
+</div>
+</div>
+<p>This result obtained using simulations does not differ from the previous result considerably.</p>
+<p>Suppose that we expect the Monte Carlo SE of power is <span class="math inline">\(0.5\%\)</span>, corresponding number of iterations <span class="math inline">\(n_{sim}\)</span> can then be specify using the formula</p>
+<p><span class="math display">\[
+n_{sim} = \frac{\widehat{\text{Power}} \times (1-\widehat{\text{Power}})}{\text{Monte Carlo SE(Power)}^2},
+\]</span> we now calculate <span class="math inline">\(n_{sim}\)</span> using the powers obtained above associated with <span class="math inline">\(4\)</span> sample size per arm (50, 250, 500, 790).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>power <span class="ot">=</span> <span class="fu">CalPower</span>(<span class="at">n=</span> n2, <span class="at">mu1=</span>  <span class="dv">0</span>,<span class="at">mu2 =</span> <span class="dv">1</span>,<span class="at">sigma =</span> <span class="fu">sqrt</span>(<span class="dv">50</span>), <span class="at">tau =</span> <span class="dv">1</span>, <span class="at">gam =</span> <span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="fu">ceiling</span>(power<span class="sc">*</span>(<span class="dv">100</span><span class="sc">-</span>power)<span class="sc">/</span><span class="fl">0.5</span><span class="sc">^</span><span class="dv">2</span>); nsim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  50  250  500  790 
+3744 9122 9531 6345 </code></pre>
+</div>
+</div>
+<p>Thus, to keep the required Monte Carlo SE of <span class="math inline">\(0.5\%\)</span> (for all 4 cases), we need at least <span class="math inline">\(n_{sim} =\)</span> 9531. We choose <span class="math inline">\(n_{sim} = 10000\)</span> and, thus, the corresponding Monte Carlo SE are</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">=</span> <span class="fu">sqrt</span>(power<span class="sc">*</span>(<span class="dv">100</span><span class="sc">-</span>power)<span class="sc">/</span><span class="dv">10000</span>); <span class="fu">round</span>(se,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   50   250   500   790 
+0.306 0.478 0.488 0.398 </code></pre>
+</div>
+</div>
+<p>which are lower than <span class="math inline">\(0.5\)</span></p>
+</section>
+<section id="question-3" class="level2">
+<h2 class="anchored" data-anchor-id="question-3">Question 3</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(n2, SimPower, <span class="at">R =</span> <span class="dv">10000</span>, <span class="at">sigma =</span> <span class="fu">sqrt</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   50   250   500   790 
+ 8.00 19.52 34.29 50.79 </code></pre>
+</div>
+</div>
+<p>As we increase the SD, the powers reduce given that we do not change the sample sizes.</p>
+<!-- :::::::::::::::::::::::::::::::::::::::  -->
+</section>
+</section>
+<section id="simulations---confounding" class="level1">
+<h1>Simulations - Confounding</h1>
+<section id="question-2-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-1">Question 2</h2>
+<p>Based on the the section of data generation, we have 10 covariates involving:</p>
+<ul>
+<li><em>Continuous variables:</em> <span class="math inline">\(W_2,W_4,W_7,W_{10}\)</span>,</li>
+<li><em>Binary variables:</em> <span class="math inline">\(W_1, W_3, W_5, W_6, W_8, W_9\)</span>,</li>
+</ul>
+<p>where correlated variables are:</p>
+<ul>
+<li><span class="math inline">\(\text{Cor}(W_1,W_5) = \text{Cor}(W_3,W_8) = 0.2\)</span>,</li>
+<li><span class="math inline">\(\text{Cor}(W_2,W_6) = \text{Cor}(W_4,W_9) = 0.9\)</span>.</li>
+</ul>
+<p>The first case is the correlation between 2 binary variables while the second is the correlation between a binary and a continuous variables. There is no correlation condition on any two continuous variables.</p>
+<p>In lieu of following the procedure described in the paper, which requires two steps of generation, we can simulate the continuous covariates directly based on the multinormal distribution.</p>
+<p>For the correlation of two binary variables, we can improve the attenuation caused by dichotimising (which was not mentioned in the paper). To this end, We use the method proposed by Emrich et. al. <span class="citation" data-cites="emrich1991method">[<a href="#ref-emrich1991method" role="doc-biblioref">2</a>]</span>, i.e.&nbsp;we pre-specify the correlation <span class="math inline">\(\rho_{prior}\)</span> of two pre-dichotomised variables such that the correlation <span class="math inline">\(\rho_{post}\)</span> of two corresponding post-dichotomised variables reaches the target value of correlation.</p>
+<p>For the correlation of a binary and a continuous variables, we can also improve the attenuation using the probit function input of which is continuous variable and the pre-specified slope. The corresponding binary variable is calculated using the inverse CDF of bernoulli distribution. This approach allows adjusting the correlation based also on the slope.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">2000</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the covariance matrix</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>covmat <span class="ot">=</span>  <span class="fu">diag</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>pre_rho <span class="ot">=</span> simstudy<span class="sc">:::</span><span class="fu">findRhoBin</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>, <span class="fl">0.2</span>) <span class="co"># find the pre rho</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>covmat[<span class="dv">1</span>,<span class="dv">5</span>]<span class="ot">&lt;-</span> covmat[<span class="dv">5</span>,<span class="dv">1</span>]<span class="ot">&lt;-</span> pre_rho <span class="co"># update corr</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>covmat[<span class="dv">3</span>,<span class="dv">8</span>]<span class="ot">&lt;-</span> covmat[<span class="dv">8</span>,<span class="dv">3</span>]<span class="ot">&lt;-</span> pre_rho <span class="co"># update corr</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># pre_rho = simstudy:::findRhoBin(0.5,0.5, 0.9)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>covmat[<span class="dv">2</span>,<span class="dv">6</span>]<span class="ot">&lt;-</span> covmat[<span class="dv">6</span>,<span class="dv">2</span>]<span class="ot">&lt;-</span> <span class="fl">0.9</span> <span class="co"># update corr</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>covmat[<span class="dv">4</span>,<span class="dv">9</span>]<span class="ot">&lt;-</span> covmat[<span class="dv">9</span>,<span class="dv">4</span>]<span class="ot">&lt;-</span> <span class="fl">0.9</span> <span class="co"># update corr</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(n, <span class="at">mu =</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="at">Sigma =</span> covmat)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># a = ifelse(df[,4] &lt; mean(df[,4]),1,0)</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># b = ifelse(df[,9] &lt; mean(df[,9]),1,0)</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># cor(a,b)</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># dichotomise variables </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>)]<span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>)] <span class="sc">&lt;</span> <span class="fu">qnorm</span>(<span class="fl">0.5</span>),<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># check the correlation of two binary variables. </span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)]<span class="sc">|&gt;</span> <span class="fu">cor</span>(); df[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">8</span>)]<span class="sc">|&gt;</span> <span class="fu">cor</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         [,1]     [,2]
+[1,] 1.000000 0.214771
+[2,] 0.214771 1.000000</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]      [,2]
+[1,] 1.0000000 0.1924738
+[2,] 0.1924738 1.0000000</code></pre>
+</div>
+</div>
+<p>The above results show that the correlation of <span class="math inline">\((W_1, W_5)\)</span> and <span class="math inline">\((W_3,W_8)\)</span> are close to the target value, which is <span class="math inline">\(0.2\)</span>. We now improve the correlation between binary and continuous variables by adjusting the slope and intercept ( actually the slope only).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># improve correlation of bin-con variables using the probit function. </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="dv">2</span>; beta0 <span class="ot">=</span> <span class="fl">0.001</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">=</span> <span class="fu">pnorm</span>(beta1<span class="sc">*</span>df[,<span class="dv">2</span>]<span class="sc">+</span>beta0)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>p9 <span class="ot">=</span> <span class="fu">pnorm</span>(beta1<span class="sc">*</span>df[,<span class="dv">4</span>]<span class="sc">+</span> beta0)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># dichotomise variable</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">6</span>]<span class="ot">&lt;-</span> <span class="fu">qbinom</span>(p6, <span class="dv">1</span>, <span class="fl">0.5</span>) </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">9</span>]<span class="ot">&lt;-</span> <span class="fu">qbinom</span>(p9, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># check the correlation of binary &amp; continuous.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>df[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">6</span>)]<span class="sc">|&gt;</span> <span class="fu">cor</span>();df[,<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">9</span>)]<span class="sc">|&gt;</span> <span class="fu">cor</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]      [,2]
+[1,] 1.0000000 0.7940715
+[2,] 0.7940715 1.0000000</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]      [,2]
+[1,] 1.0000000 0.7982196
+[2,] 0.7982196 1.0000000</code></pre>
+</div>
+</div>
+<p>The best result of correlation that can be achieved using this method is close to <span class="math inline">\(0.8\)</span>. Although this goes off the target value of <span class="math inline">\(0.9\)</span>, it is the best we can achieve.</p>
+<p>We now repeat the procedure above to simulate 1000 datasets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">=</span> <span class="dv">1000</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">replicate</span>(R,{</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  df<span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(n, <span class="at">mu =</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="at">Sigma =</span> covmat)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dichotomise variables </span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>)]<span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>)] <span class="sc">&lt;</span> <span class="fu">qnorm</span>(<span class="fl">0.5</span>),<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># improve correlation of bin-con variables using the probit function. </span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  beta1 <span class="ot">=</span> <span class="dv">2</span>; beta0 <span class="ot">=</span> <span class="fl">0.1</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  p6 <span class="ot">=</span> <span class="fu">pnorm</span>(beta1<span class="sc">*</span>df[,<span class="dv">2</span>]<span class="sc">+</span>beta0)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  p9 <span class="ot">=</span> <span class="fu">pnorm</span>(beta1<span class="sc">*</span>df[,<span class="dv">4</span>]<span class="sc">+</span> beta0)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dichotomise variable</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  df[,<span class="dv">6</span>]<span class="ot">&lt;-</span> <span class="fu">qbinom</span>(p6, <span class="dv">1</span>, <span class="fl">0.5</span>) </span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  df[,<span class="dv">9</span>]<span class="ot">&lt;-</span> <span class="fu">qbinom</span>(p9, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now simulate the exposure and outcome for each dataset</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bet <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="sc">-</span><span class="fl">0.25</span>, <span class="fl">0.6</span>, <span class="sc">-</span><span class="fl">0.4</span>, <span class="sc">-</span><span class="fl">0.8</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">0.7</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">=</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.85</span>, <span class="fl">0.3</span>, <span class="sc">-</span><span class="fl">0.36</span>, <span class="sc">-</span><span class="fl">0.73</span>, <span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">0.71</span>, <span class="sc">-</span><span class="fl">0.19</span>, <span class="fl">0.26</span>, <span class="sc">-</span><span class="fl">0.4</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>dat2<span class="ot">&lt;-</span> <span class="fu">apply</span>(dat,<span class="dv">3</span>, \(df){</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># simulates the exposure and outcome variables for each </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># simulated dataset. Its input is matrix of covariate W1-W10</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  prob <span class="ot">=</span>  boot<span class="sc">::</span><span class="fu">inv.logit</span>(df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]<span class="sc">%*%</span>bet) <span class="co"># calculate the probability using the inverse logit function</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">=</span> <span class="fu">ifelse</span>(prob <span class="sc">&gt;</span> <span class="fu">runif</span>(n),<span class="dv">1</span>, <span class="dv">0</span>) <span class="co">#  dichotomise exposure</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  df1<span class="ot">&lt;-</span> <span class="fu">cbind</span>(df,A)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  prob <span class="ot">=</span>  boot<span class="sc">::</span><span class="fu">inv.logit</span>(<span class="fu">cbind</span>(<span class="dv">1</span>,df1[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">11</span>)])<span class="sc">%*%</span>alpha) <span class="co"># calculate the probability using the inverse logit function. It is important to note that I used the formula exp(x)/1[+exp(x)], not 1/[1+exp(x)]. This wouldn't change the result as you defined the &lt; or &gt; to dichotomise. To check which one is correct, we will calculate the probability of A and Y, if they are =~ 0.05 ans 0.02, then we are fine.  </span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  Y <span class="ot">=</span> <span class="fu">ifelse</span>(prob <span class="sc">&gt;</span> <span class="fu">runif</span>(n),<span class="dv">1</span>, <span class="dv">0</span>) <span class="co">#  dichotomise outcome</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  df3<span class="ot">&lt;-</span> <span class="fu">cbind</span>(df1, Y)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(df3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"w"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="st">"A"</span>, <span class="st">"Y"</span>) <span class="co"># set names of columns</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># glm(df3[,"Y"] ~ df3[,"A"], family = "binomial")$coefficients[2]</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(df3)<span class="sc">|&gt;</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>), as_factor)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">simplify =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now check the average probability of A and Y and correlations of covariates</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># prob</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(dat2, \(i) <span class="fu">c</span>(<span class="at">A =</span> <span class="fu">mean</span>(i<span class="sc">$</span>A<span class="sc">==</span><span class="dv">1</span>), <span class="at">Y =</span> <span class="fu">mean</span>(i<span class="sc">$</span>Y<span class="sc">==</span><span class="dv">1</span>)))<span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">1</span>,mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A        Y 
+0.508027 0.022484 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># corr bin-bin</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(dat2, \(i){</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  c15<span class="ot">&lt;-</span> <span class="fu">cor</span>(i<span class="sc">$</span>w1<span class="sc">==</span><span class="dv">1</span>,i<span class="sc">$</span>w5<span class="sc">==</span><span class="dv">1</span>); </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  c38<span class="ot">&lt;-</span> <span class="fu">cor</span>(i<span class="sc">$</span>w3<span class="sc">==</span><span class="dv">1</span>,i<span class="sc">$</span>w8<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">c15=</span>c15, <span class="at">c38=</span>c38)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">1</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      c15       c38 
+0.1989620 0.2008593 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># corr bin-cont</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(dat2, \(i){</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  c15<span class="ot">&lt;-</span> <span class="fu">cor</span>(i<span class="sc">$</span>w2,i<span class="sc">$</span>w6<span class="sc">==</span><span class="dv">1</span>); </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  c38<span class="ot">&lt;-</span> <span class="fu">cor</span>(i<span class="sc">$</span>w4,i<span class="sc">$</span>w9<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">c15=</span>c15, <span class="at">c38=</span>c38)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="dv">1</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      c15       c38 
+0.7976293 0.7976587 </code></pre>
+</div>
+</div>
+<p>(The result shows that we are fine to move on)</p>
+</section>
+<section id="question-3-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-1">Question 3</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dats <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">dat =</span> dat2)<span class="sc">|&gt;</span> <span class="co"># shrink all simulated datasets to tibble (data.frame)</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fit the logistic model for each dataset</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit =</span> <span class="fu">map</span>(dat, <span class="sc">~</span> <span class="fu">glm</span>(Y <span class="sc">~</span> A, <span class="at">data =</span> ., <span class="at">family =</span> <span class="st">"binomial"</span>)))<span class="sc">|&gt;</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># summary the output of glm</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">summ =</span> <span class="fu">map</span>(fit, purrr<span class="sc">::</span><span class="fu">compose</span>(<span class="sc">~</span> <span class="fu">slice</span>(.,<span class="dv">2</span>),broom<span class="sc">::</span>tidy)))<span class="sc">|&gt;</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(summ)<span class="sc">|&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate OR from logOR</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">or =</span> <span class="fu">exp</span>(estimate))<span class="sc">|&gt;</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select main statistics, i.e. or and SD</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(or, std.error)<span class="sc">|&gt;</span> </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add dataset number</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ds =</span> <span class="dv">1</span><span class="sc">:</span>R, <span class="at">.before =</span> <span class="dv">1</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(dats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,000
+Columns: 3
+$ ds        &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
+$ or        &lt;dbl&gt; 0.8049030, 0.5158957, 0.7363512, 0.5842874, 1.1397306, 0.806…
+$ std.error &lt;dbl&gt; 0.3384327, 0.3780765, 0.2843211, 0.3034329, 0.2788686, 0.306…</code></pre>
+</div>
+</div>
+<p>We calculate the mean and credible interval, and plot the density curve of OR as follows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>or <span class="ot">=</span> <span class="fu">mean</span>(dats<span class="sc">$</span>or)<span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>); </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>crinv <span class="ot">=</span> HDInterval<span class="sc">::</span><span class="fu">hdi</span>(dats<span class="sc">$</span>or)<span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>)<span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_flatten</span>(<span class="st">", "</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"Credible interval: "</span>, or, <span class="st">" ("</span>, crinv,<span class="st">"); "</span>,<span class="st">"true OR: "</span>,<span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.4</span>),<span class="dv">2</span>))</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dats, <span class="fu">aes</span>(<span class="at">x =</span> or))<span class="sc">+</span> <span class="fu">geom_density</span>()<span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.4</span>))<span class="sc">+</span> <span class="fu">ggtitle</span>(ci)<span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>To assess the uncertainty of simulations, we utilise the R package <code>rsimsum</code> <span class="citation" data-cites="gasparini2018rsimsum">[<a href="#ref-gasparini2018rsimsum" role="doc-biblioref">3</a>]</span> to summarise the results and report the result based on the suggestions of Morris et. al. <span class="citation" data-cites="morris2019using">[<a href="#ref-morris2019using" role="doc-biblioref">4</a>]</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>(s1 <span class="ot">&lt;-</span> <span class="fu">simsum</span>(<span class="at">data =</span> dats, <span class="at">estvarname =</span> <span class="st">"or"</span>, <span class="at">se =</span> <span class="st">"std.error"</span>, <span class="at">true =</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.4</span>), <span class="at">x =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span> <span class="fu">summary</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Values are:
+    Point Estimate (Monte Carlo Standard Error)
+
+Non-missing point estimates/standard errors:
+ Estimate
+     1000
+
+Average point estimate:
+ Estimate
+   0.8402
+
+Median point estimate:
+ Estimate
+   0.8080
+
+Average variance:
+ Estimate
+   0.0962
+
+Median variance:
+ Estimate
+   0.0937
+
+Bias in point estimate:
+        Estimate
+ 0.1699 (0.0084)
+
+Relative bias in point estimate:
+        Estimate
+ 0.2535 (0.0126)
+
+Empirical standard error:
+        Estimate
+ 0.2666 (0.0060)
+
+Mean squared error:
+        Estimate
+ 0.0999 (0.0061)
+
+Model-based standard error:
+        Estimate
+ 0.3102 (0.0008)
+
+Relative % error in standard error:
+         Estimate
+ 16.3330 (2.6205)
+
+Coverage of nominal 95% confidence interval:
+        Estimate
+ 0.9330 (0.0079)
+
+Bias-eliminated coverage of nominal 95% confidence interval:
+        Estimate
+ 0.9730 (0.0051)
+
+Power of 5% level test:
+        Estimate
+ 0.8150 (0.0123)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarise the output. focus on the Bias and coverage</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>s1<span class="sc">$</span>summ<span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, <span class="sc">~</span><span class="fu">round</span>(.,<span class="dv">3</span>))<span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stat <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"bias"</span>,<span class="st">"cover"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>( <span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)<span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>,<span class="st">"hold_position"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+</div>
+<p>The bias of <span class="math inline">\(0.17\)</span> and the coverage of <span class="math inline">\(0.93\)</span> with the Monte Carlo SE of <span class="math inline">\(0.008\)</span> indicate a good consistency of the estimate of OR across simulations. We can also create the zip-plot for illustration ad follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(s1, <span class="at">type =</span> <span class="st">"zip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="question-4" class="level2">
+<h2 class="anchored" data-anchor-id="question-4">question 4</h2>
+<p>Suppose the model that gives the crude OR is model 1, the model that excludes <span class="math inline">\(W_5-W_7\)</span> is model 2, and the model that includes all covariates is model 3. We fit all models and obtain the average ORs and credible intervals.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dats2 <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">dat =</span> dat2)<span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit1 =</span> <span class="fu">map</span>(dat, <span class="sc">~</span> <span class="fu">glm</span>(Y <span class="sc">~</span> A, <span class="at">data =</span> ., <span class="at">family =</span> <span class="st">"binomial"</span>)))<span class="sc">|&gt;</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit2 =</span> <span class="fu">map</span>(dat, <span class="sc">~</span> <span class="fu">glm</span>(Y <span class="sc">~</span> A<span class="sc">+</span> w1<span class="sc">+</span>w2<span class="sc">+</span>w3<span class="sc">+</span>w4<span class="sc">+</span>w8<span class="sc">+</span>w9<span class="sc">+</span>w10, <span class="at">data =</span> ., <span class="at">family =</span> <span class="st">"binomial"</span>) ))<span class="sc">|&gt;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fit3 =</span> <span class="fu">map</span>(dat, <span class="sc">~</span> <span class="fu">glm</span>(Y <span class="sc">~</span> A<span class="sc">+</span> w1<span class="sc">+</span>w2<span class="sc">+</span>w3<span class="sc">+</span>w4<span class="sc">+</span>w5<span class="sc">+</span> w6<span class="sc">+</span>w7<span class="sc">+</span>w8<span class="sc">+</span>w9<span class="sc">+</span>w10, <span class="at">data =</span> ., <span class="at">family =</span> <span class="st">"binomial"</span>) ))</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>summ_dat<span class="ot">&lt;-</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(dats2, <span class="fu">across</span>(fit1<span class="sc">:</span>fit3, <span class="sc">~</span> <span class="fu">map</span>(., purrr<span class="sc">::</span><span class="fu">compose</span>(<span class="sc">~</span><span class="fu">slice</span>(.,<span class="dv">2</span>),broom<span class="sc">::</span>tidy) )))<span class="sc">|&gt;</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(fit1<span class="sc">:</span>fit3, <span class="sc">~</span> <span class="fu">map</span>(., \(i) dplyr<span class="sc">::</span><span class="fu">select</span>(i,estimate, std.error))))<span class="sc">|&gt;</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(fit1<span class="sc">:</span>fit3, <span class="sc">~</span> <span class="fu">map</span>(., \(i) <span class="fu">mutate</span>(i, <span class="at">or =</span> <span class="fu">exp</span>(estimate),<span class="at">sd =</span> std.error, <span class="at">.keep =</span> <span class="st">"unused"</span>, <span class="at">.before =</span> <span class="dv">1</span>))))<span class="sc">|&gt;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>dat)<span class="sc">|&gt;</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">names_sep =</span> <span class="st">"."</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>or<span class="ot">&lt;-</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>summ_dat<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"or"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"model"</span>, <span class="at">values_to =</span> <span class="st">"or"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">str_remove_all</span>(model, <span class="st">"</span><span class="sc">\\</span><span class="st">.or"</span>))</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  summ_dat<span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"sd"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"model"</span>, <span class="at">values_to =</span> <span class="st">"sd"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="fu">str_remove_all</span>(model, <span class="st">"</span><span class="sc">\\</span><span class="st">.sd"</span>))</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>dat_join<span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(or, dplyr<span class="sc">::</span><span class="fu">select</span>(se, <span class="sc">-</span>model))</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>dat_join<span class="sc">|&gt;</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">ave.or =</span> <span class="fu">mean</span>(or), <span class="at">lower =</span> HDInterval<span class="sc">::</span><span class="fu">hdi</span>(or)[<span class="dv">1</span>], <span class="at">upper =</span> HDInterval<span class="sc">::</span><span class="fu">hdi</span>(or)[<span class="dv">2</span>], <span class="at">.by =</span> model)<span class="sc">|&gt;</span></span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CI.width =</span> upper <span class="sc">-</span> lower)<span class="sc">|&gt;</span></span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>( <span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)<span class="sc">|&gt;</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>,<span class="st">"hold_position"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+</div>
+<p>We plot the density curve of OR of three models as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat_join, <span class="fu">aes</span>(<span class="at">x =</span> or, <span class="at">fill =</span> model))<span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>We then evaluate uncertainty of the models using the <code>bias</code> and <code>coverage</code> measures that are suggested by Morris et. al. <span class="citation" data-cites="morris2019using">[<a href="#ref-morris2019using" role="doc-biblioref">4</a>]</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">simsum</span>(<span class="at">data =</span> dat_join, <span class="at">estvarname =</span> <span class="st">"or"</span>, <span class="at">se =</span> <span class="st">"sd"</span>, <span class="at">true =</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.4</span>), <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">methodvar =</span> <span class="st">"model"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>out<span class="ot">&lt;-</span> <span class="fu">summary</span>(s2)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>out<span class="sc">$</span>summ<span class="sc">|&gt;</span> <span class="fu">mutate_if</span>(is.numeric, <span class="sc">~</span><span class="fu">round</span>(.,<span class="dv">3</span>))<span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stat <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"bias"</span>,<span class="st">"cover"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>( <span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)<span class="sc">|&gt;</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hold_position"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+</div>
+<p><span class="math inline">\(W_5-W_7\)</span> do not impact the estimation significantly. This is indicated by the average OR and its corresponding credible intervals shown above. These values do not go off markedly. This can also be implied by the estimate of <code>bias</code> and <code>cover</code> in the table above; both <code>bias</code> and <code>cover</code> are almost the same between two models. Another implication of this is to compare the overlap area between model 2 and model 3 versus model 1 and model 3, the former is large than the later.</p>
+<p>This suggests us to explore the estimate of coefficients of these covariates and their p-value to see if they are significant. To this end, we extract information from the fitting object of model 3 and calculate the probability of significance, i.e.&nbsp;the probability that these three corresponding coefficients differ from <span class="math inline">\(0\)</span>. In other words, this is the probability of rejecting the null hypothesis in the Bayesian framework.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fit3<span class="ot">&lt;-</span> <span class="fu">mutate</span>(dats2, <span class="at">summ =</span> <span class="fu">map</span>(fit3, broom<span class="sc">::</span>tidy))<span class="sc">$</span>summ</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>sig.dat<span class="ot">&lt;-</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(fit3, \(i) <span class="fu">filter</span>(i, <span class="fu">str_detect</span>(term,<span class="st">"5|6|7"</span>) ) )<span class="sc">|&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>()<span class="sc">|&gt;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> p.value <span class="sc">&lt;</span><span class="fl">0.05</span>, <span class="at">term =</span> <span class="fu">str_remove_all</span>(term,<span class="st">"1"</span>))</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(sig.dat, <span class="at">prob.sig =</span> <span class="fu">mean</span>(significance),<span class="at">.by =</span> <span class="st">"term"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>( <span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)<span class="sc">|&gt;</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hold_position"</span>) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(sig.dat, <span class="fu">aes</span>(<span class="at">y =</span> p.value, <span class="at">x =</span> term))<span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">color =</span> term))<span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_dotplot</span>(<span class="at">binaxis=</span><span class="st">'y'</span>, <span class="at">stackdir=</span><span class="st">'center'</span>, <span class="at">dotsize=</span><span class="dv">1</span>, <span class="at">binwidth =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">100</span>, <span class="at">binpositions =</span> <span class="st">"all"</span>, <span class="fu">aes</span>( <span class="at">fill =</span> significance))<span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Thus, the probability of significance calculated across 1000 simulated datasets are about <span class="math inline">\(5\%\)</span>.</p>
+<!-- ::::::::::::::::::::::::::::::::::::: -->
+</section>
+</section>
+<section id="survival-data---analyses" class="level1">
+<h1>Survival Data - Analyses</h1>
+<section id="question-1-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-1-2">Question 1 &amp; 2</h2>
+<p>The survivor function under the Weibull distribution has the following form</p>
+<p><span class="math display">\[
+S(t) = \exp\{-(\lambda t)^{\alpha}\}.
+\]</span> If we use the scale parameter <span class="math inline">\(\sigma = 1/\alpha\)</span> and <span class="math inline">\(\mu = -\ln\lambda\)</span>, we have</p>
+<p><span class="math display">\[
+S_{W}(t) = \exp\{-e^{-\mu/\sigma}t^{1/\sigma}\}.
+\]</span> If we set <span class="math inline">\(\sigma =1\)</span> we have the survivor exponential function, i.e.</p>
+<p><span class="math display">\[
+S_E(t) = \exp\{-\lambda t\}.
+\]</span></p>
+<p>If we take <span class="math inline">\(\ln[-\ln(.)]\)</span> and <span class="math inline">\(\ln(.)\)</span> to <span class="math inline">\(S_W(t)\)</span> and <span class="math inline">\(S_E(t)\)</span>, respectively, we obtain <span class="math display">\[
+\ln\{-\ln[S_W(t)]\} = -\mu/\sigma + 1/\sigma\ln(t), \quad \text{and}\quad \ln[S_E(t)] = -\lambda t.
+\]</span></p>
+<p>These functions suggest a diagnostic tool to evaluate how well a set of survival data follows a Weibull or Exponential distribution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">444</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">mutate</span>(survival<span class="sc">::</span>cancer<span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() , <span class="at">ph.karno =</span> <span class="fu">ifelse</span>(ph.karno <span class="sc">&gt;</span> <span class="dv">80</span>, <span class="dv">1</span>,<span class="dv">0</span>)<span class="sc">|&gt;</span> <span class="fu">as_factor</span>())<span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()<span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">as_factor</span>(sex))</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>result.km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dat)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="do">## exponential</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="fu">log</span>(result.km<span class="sc">$</span>surv)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> result.km<span class="sc">$</span>time</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>result.lm<span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> x)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y <span class="sc">~</span> x, <span class="at">main =</span> <span class="st">"exponential"</span>)</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(result.lm)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Weibull</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="sc">-</span><span class="fu">log</span>(result.km<span class="sc">$</span>surv))</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">log</span>(result.km<span class="sc">$</span>time)</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>result.lm<span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span>  x)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span> x, <span class="at">main =</span> <span class="st">"Weibull"</span>)</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(result.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>The plots show the Weibull survivor function fits the data better than the Exponential survivor function.</p>
+<p>We now fit all three models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>wei.mod <span class="ot">&lt;-</span> eha<span class="sc">::</span><span class="fu">phreg</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno <span class="sc">+</span> age<span class="sc">+</span> sex<span class="sc">+</span> ph.ecog <span class="sc">+</span> pat.karno <span class="sc">+</span> meal.cal<span class="sc">+</span> wt.loss , <span class="at">data =</span> dat, <span class="at">dist =</span> <span class="st">"weibull"</span>, <span class="at">x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># extract information from the output</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>cap.out <span class="ot">=</span> <span class="fu">capture.output</span>(wei.mod)[<span class="dv">6</span><span class="sc">:</span><span class="dv">17</span>]</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> cap.out[<span class="sc">!</span><span class="fu">str_detect</span>(cap.out, <span class="st">"reference"</span>)]</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) cap.out[i]<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out[i],<span class="st">"^ +</span><span class="sc">\\</span><span class="st">d"</span>,cap.out[i<span class="dv">-1</span>])</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out, <span class="st">"Wald p"</span>, <span class="st">"Wald.p"</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">str_split</span>(cap.out, <span class="st">" +"</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">discard</span>(<span class="sc">~</span><span class="fu">length</span>(.) <span class="sc">&lt;</span><span class="dv">3</span> )</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">lapply</span>(info, \(i) i[i<span class="sc">!=</span><span class="st">""</span>] )</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>summ.wei<span class="ot">&lt;-</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">exec</span>(rbind, <span class="sc">!!!</span>info[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">|&gt;</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(info[[<span class="dv">1</span>]])<span class="sc">|&gt;</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(Wald.p) <span class="sc">&lt;</span> <span class="fl">0.05</span>, Covariate,<span class="st">""</span>))</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="co">#---</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>exp.mod <span class="ot">&lt;-</span> eha<span class="sc">::</span><span class="fu">phreg</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno <span class="sc">+</span> age<span class="sc">+</span> sex<span class="sc">+</span> ph.ecog <span class="sc">+</span> pat.karno <span class="sc">+</span> meal.cal<span class="sc">+</span> wt.loss , <span class="at">data =</span> dat, <span class="at">shape =</span> <span class="dv">1</span>)</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>cap.out <span class="ot">=</span> <span class="fu">capture.output</span>(exp.mod)[<span class="dv">5</span><span class="sc">:</span><span class="dv">16</span>]</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> cap.out[<span class="sc">!</span><span class="fu">str_detect</span>(cap.out, <span class="st">"reference"</span>)]</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) cap.out[i]<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out[i],<span class="st">"^ +</span><span class="sc">\\</span><span class="st">d"</span>,cap.out[i<span class="dv">-1</span>])</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out, <span class="st">"Wald p"</span>, <span class="st">"Wald.p"</span>)</span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">str_split</span>(cap.out, <span class="st">" +"</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">discard</span>(<span class="sc">~</span><span class="fu">length</span>(.) <span class="sc">&lt;</span><span class="dv">3</span> )</span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">lapply</span>(info, \(i) i[i<span class="sc">!=</span><span class="st">""</span>] )</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>summ.exp<span class="ot">&lt;-</span></span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a><span class="fu">exec</span>(rbind, <span class="sc">!!!</span>info[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">|&gt;</span></span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(info[[<span class="dv">1</span>]])<span class="sc">|&gt;</span></span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(Wald.p) <span class="sc">&lt;</span> <span class="fl">0.05</span>, Covariate,<span class="st">""</span>))</span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a><span class="co">#---</span></span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>cox.mod<span class="ot">&lt;-</span> <span class="fu">coxreg</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno <span class="sc">+</span> age<span class="sc">+</span> sex<span class="sc">+</span> ph.ecog <span class="sc">+</span> pat.karno <span class="sc">+</span> meal.cal<span class="sc">+</span> wt.loss , <span class="at">data =</span> dat)</span>
+<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>cap.out <span class="ot">=</span> <span class="fu">capture.output</span>(cox.mod)[<span class="dv">5</span><span class="sc">:</span><span class="dv">16</span>]</span>
+<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> cap.out[<span class="sc">!</span><span class="fu">str_detect</span>(cap.out, <span class="st">"reference"</span>)]</span>
+<span id="cb40-38"><a href="#cb40-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) cap.out[i]<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out[i],<span class="st">"^ +</span><span class="sc">\\</span><span class="st">d"</span>,cap.out[i<span class="dv">-1</span>])</span>
+<span id="cb40-39"><a href="#cb40-39" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out, <span class="st">"Wald p"</span>, <span class="st">"Wald.p"</span>)</span>
+<span id="cb40-40"><a href="#cb40-40" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">str_split</span>(cap.out, <span class="st">" +"</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">discard</span>(<span class="sc">~</span><span class="fu">length</span>(.) <span class="sc">&lt;</span><span class="dv">3</span> )</span>
+<span id="cb40-41"><a href="#cb40-41" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">lapply</span>(info, \(i) i[i<span class="sc">!=</span><span class="st">""</span>] )</span>
+<span id="cb40-42"><a href="#cb40-42" aria-hidden="true" tabindex="-1"></a>summ.cox<span class="ot">&lt;-</span></span>
+<span id="cb40-43"><a href="#cb40-43" aria-hidden="true" tabindex="-1"></a><span class="fu">exec</span>(rbind, <span class="sc">!!!</span>info[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">|&gt;</span></span>
+<span id="cb40-44"><a href="#cb40-44" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(info[[<span class="dv">1</span>]])<span class="sc">|&gt;</span></span>
+<span id="cb40-45"><a href="#cb40-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb40-46"><a href="#cb40-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(Wald.p) <span class="sc">&lt;</span> <span class="fl">0.05</span>, Covariate,<span class="st">""</span>))<span class="sc">|&gt;</span></span>
+<span id="cb40-47"><a href="#cb40-47" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">names&lt;-</span><span class="st">`</span>(<span class="fu">names</span>(summ.exp))</span>
+<span id="cb40-48"><a href="#cb40-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-49"><a href="#cb40-49" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(summ.wei, summ.exp, summ.cox)<span class="sc">|&gt;</span></span>
+<span id="cb40-50"><a href="#cb40-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)<span class="sc">|&gt;</span></span>
+<span id="cb40-51"><a href="#cb40-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hold_position"</span>, <span class="st">"repeat_header"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb40-52"><a href="#cb40-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">"Weibull"</span>, <span class="dv">1</span>,<span class="dv">7</span>)<span class="sc">|&gt;</span></span>
+<span id="cb40-53"><a href="#cb40-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">"Exponential"</span>, <span class="dv">8</span>,<span class="dv">14</span>)<span class="sc">|&gt;</span></span>
+<span id="cb40-54"><a href="#cb40-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">"Cox"</span>, <span class="dv">15</span>,<span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+</div>
+<p>Only two covariates are statistically significant in all three models while the main effect, i.e.&nbsp;<code>ph.karnol</code>, is not. This may implies two points:</p>
+<ol type="1">
+<li>All three models may be equivalent.</li>
+<li>Not all covariates are helpful.</li>
+</ol>
+<p>However, the diagnostic plots above show the Weibull is preferred for this data.</p>
+<p>Thus, we undertake model selection to drop covariates that do not impact the models. Because <code>ph.karnol</code> is the main effect, we will keep it while proceeding the step forward/backward.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>wei.mod2<span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">stepAIC</span>(wei.mod, <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> <span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno, <span class="at">upper =</span> wei.mod))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>exp.mod2<span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">stepAIC</span>(exp.mod, <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> <span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno, <span class="at">upper =</span> exp.mod))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>cox.mod2<span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">stepAIC</span>(cox.mod, <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower =</span> <span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno, <span class="at">upper =</span> cox.mod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract output from new models</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Weibull</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>cap.out <span class="ot">=</span> <span class="fu">capture.output</span>(wei.mod2)[<span class="dv">5</span><span class="sc">:</span><span class="dv">13</span>]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> cap.out[<span class="sc">!</span><span class="fu">str_detect</span>(cap.out, <span class="st">"reference"</span>)]</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>) cap.out[i]<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out[i],<span class="st">"^ +</span><span class="sc">\\</span><span class="st">d"</span>,cap.out[i<span class="dv">-1</span>])</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out, <span class="st">"Wald p"</span>, <span class="st">"Wald.p"</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">str_split</span>(cap.out, <span class="st">" +"</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">discard</span>(<span class="sc">~</span><span class="fu">length</span>(.) <span class="sc">&lt;</span><span class="dv">3</span> )</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">lapply</span>(info, \(i) i[i<span class="sc">!=</span><span class="st">""</span>] )</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>summ.wei2<span class="ot">&lt;-</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="fu">exec</span>(rbind, <span class="sc">!!!</span>info[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">|&gt;</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(info[[<span class="dv">1</span>]])<span class="sc">|&gt;</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(Wald.p) <span class="sc">&lt;</span> <span class="fl">0.05</span>, Covariate,<span class="st">""</span>))</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Exp</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>cap.out <span class="ot">=</span> <span class="fu">capture.output</span>(exp.mod2)[<span class="dv">5</span><span class="sc">:</span><span class="dv">13</span>]</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> cap.out[<span class="sc">!</span><span class="fu">str_detect</span>(cap.out, <span class="st">"reference"</span>)]</span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>) cap.out[i]<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out[i],<span class="st">"^ +</span><span class="sc">\\</span><span class="st">d"</span>,cap.out[i<span class="dv">-1</span>])</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out, <span class="st">"Wald p"</span>, <span class="st">"Wald.p"</span>)</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">str_split</span>(cap.out, <span class="st">" +"</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">discard</span>(<span class="sc">~</span><span class="fu">length</span>(.) <span class="sc">&lt;</span><span class="dv">3</span> )</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">lapply</span>(info, \(i) i[i<span class="sc">!=</span><span class="st">""</span>] )</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>summ.exp2<span class="ot">&lt;-</span></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a><span class="fu">exec</span>(rbind, <span class="sc">!!!</span>info[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">|&gt;</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(info[[<span class="dv">1</span>]])<span class="sc">|&gt;</span></span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(Wald.p) <span class="sc">&lt;</span> <span class="fl">0.05</span>, Covariate,<span class="st">""</span>))</span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a><span class="co"># cox</span></span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>cap.out <span class="ot">=</span> <span class="fu">capture.output</span>(cox.mod2)[<span class="dv">5</span><span class="sc">:</span><span class="dv">13</span>]</span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> cap.out[<span class="sc">!</span><span class="fu">str_detect</span>(cap.out, <span class="st">"reference"</span>)]</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) cap.out[i]<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out[i],<span class="st">"^ +</span><span class="sc">\\</span><span class="st">d"</span>,cap.out[i<span class="dv">-1</span>])</span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>cap.out<span class="ot">&lt;-</span> <span class="fu">str_replace</span>(cap.out, <span class="st">"Wald p"</span>, <span class="st">"Wald.p"</span>)</span>
+<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">str_split</span>(cap.out, <span class="st">" +"</span>)<span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">discard</span>(<span class="sc">~</span><span class="fu">length</span>(.) <span class="sc">&lt;</span><span class="dv">3</span> )</span>
+<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a>info<span class="ot">&lt;-</span> <span class="fu">lapply</span>(info, \(i) i[i<span class="sc">!=</span><span class="st">""</span>] )</span>
+<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a>summ.cox2<span class="ot">&lt;-</span></span>
+<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a><span class="fu">exec</span>(rbind, <span class="sc">!!!</span>info[<span class="sc">-</span><span class="dv">1</span>])<span class="sc">|&gt;</span></span>
+<span id="cb42-40"><a href="#cb42-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(info[[<span class="dv">1</span>]])<span class="sc">|&gt;</span></span>
+<span id="cb42-41"><a href="#cb42-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">|&gt;</span></span>
+<span id="cb42-42"><a href="#cb42-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">ifelse</span>(<span class="fu">as.numeric</span>(Wald.p) <span class="sc">&lt;</span> <span class="fl">0.05</span>, Covariate,<span class="st">""</span>))<span class="sc">|&gt;</span></span>
+<span id="cb42-43"><a href="#cb42-43" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">names&lt;-</span><span class="st">`</span>(<span class="fu">names</span>(summ.exp))</span>
+<span id="cb42-44"><a href="#cb42-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-45"><a href="#cb42-45" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(summ.wei2, summ.exp2, summ.cox2)<span class="sc">|&gt;</span></span>
+<span id="cb42-46"><a href="#cb42-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">format =</span> <span class="st">"latex"</span>, <span class="at">booktabs =</span> T)<span class="sc">|&gt;</span></span>
+<span id="cb42-47"><a href="#cb42-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">"striped"</span>, <span class="st">"hold_position"</span>))<span class="sc">|&gt;</span></span>
+<span id="cb42-48"><a href="#cb42-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">"Weibull"</span>, <span class="dv">1</span>,<span class="dv">4</span>)<span class="sc">|&gt;</span></span>
+<span id="cb42-49"><a href="#cb42-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">"Exponential"</span>, <span class="dv">5</span>,<span class="dv">7</span>)<span class="sc">|&gt;</span></span>
+<span id="cb42-50"><a href="#cb42-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">"Cox"</span>, <span class="dv">8</span>,<span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+</div>
+</div>
+<p>The updated Weibull and Cox models now have 4 covariates, ph.karno1, sex2, ph.ecog, wt.loss while the exponential model has 3 covariates, ph.karno1, sex2, ph.ecog. We will make a comparison now.</p>
+<p>The main effects in three model are similar. The effect in Weibull model is the highest, followed by that in Cox and then Exponential (the effects of Cox and exponential are very much the same). All three are higher than 1, implying the effect of <code>ph.karno</code>. However, the effect is not statistically significant.</p>
+</section>
+<section id="question-3-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-2">Question 3</h2>
+<p>We check the distribution of Weibull and Cox model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check.dist</span>(wei.mod2, cox.mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>We see that Weibull model fits well to the Cox model. Thus, we only evaluate the goodness of fit of Weibull. We calculate the Cox-Snell residuals and plot it against the cumulative hazard function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>wm<span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span>  ph.karno <span class="sc">+</span> sex<span class="sc">+</span> ph.ecog  <span class="sc">+</span> wt.loss , <span class="at">data =</span> dat, <span class="at">dist =</span> <span class="st">"weibull"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>cs<span class="ot">&lt;-</span> <span class="fu">coxsnell_flexsurvreg</span>(wm)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>surv <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(cs<span class="sc">$</span>est, cs<span class="sc">$</span>status) <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>index <span class="ot">=</span> <span class="fu">which</span>(cs<span class="sc">$</span>est<span class="sc">&gt;=</span><span class="dv">3</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>val <span class="ot">=</span> cs<span class="sc">$</span>est[cs<span class="sc">$</span>est<span class="sc">&gt;=</span><span class="dv">3</span>]</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(surv, <span class="at">fun =</span> <span class="st">"cumhaz"</span>)<span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"deeppink"</span>)<span class="sc">+</span> <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">" "</span>, <span class="at">y =</span><span class="st">" "</span>)<span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span>val, <span class="at">y=</span>val, <span class="at">label=</span> index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="answer_BIOS602Assignment2_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>The model fit the data quite well. However, there are some outliers whose indices are shown in the plot.</p>
+<!-- ---------------------------------- -->
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="references" class="level1 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-schouten1999sample" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Schouten HJ. Sample size formula with a continuous outcome for unequal group sizes and unequal variances. Statistics in Medicine. 1999;18(1):87–91. </div>
+</div>
+<div id="ref-emrich1991method" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Emrich LJ, Piedmonte MR. A method for generating high-dimensional multivariate binary variates. The American Statistician. 1991;45(4):302–4. </div>
+</div>
+<div id="ref-gasparini2018rsimsum" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Gasparini A. Rsimsum: Summarise results from monte carlo simulation studies. Journal of Open Source Software. 2018;3(26):739. </div>
+</div>
+<div id="ref-morris2019using" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Morris TP, White IR, Crowther MJ. Using simulation studies to evaluate statistical methods. Statistics in medicine. 2019;38(11):2074–102. </div>
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

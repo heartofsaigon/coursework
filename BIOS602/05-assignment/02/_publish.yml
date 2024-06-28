@@ -1,0 +1,4 @@
+- source: answer_BIOS602Assignment2.qmd
+  quarto-pub:
+    - id: eb9ec44e-f456-4c9f-8cb2-1b65e125f9b2
+      url: 'https://nam-anh.quarto.pub/bios602-assignment-2'

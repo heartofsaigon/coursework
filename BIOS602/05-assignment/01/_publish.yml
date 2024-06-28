@@ -1,0 +1,4 @@
+- source: assignment1S.qmd
+  quarto-pub:
+    - id: 49a239c4-6df1-4278-9f32-48e0b79a7f85
+      url: 'https://nam-anh.quarto.pub/bios602-assignment-1'

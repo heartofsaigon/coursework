@@ -1,0 +1,401 @@
+---
+title: "BIOS602: Assignment 1"
+#date: '`r Sys.Date()`'
+author: Nam-Anh Tran
+format: html
+highlight-style: tango
+linestretch: 1.5
+#mainfont: "Georgia"
+fontsize: 13pt
+number-sections: false
+fig-cap-location: top
+fig-height: 4
+fig-width: 5
+shift-heading-level-by: 0
+link-citations: true
+linkcolor: red
+margin-top: 1.2in
+margin-bottom: 1.2in
+margin-left: .5in
+margin-right: .5in
+indent: true
+classoption: [onecolumn, portrait]
+bibliography: ../references.bib
+csl: ../vancouver.csl
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+if(!library(pacman, logical.return = T)) installed.packages("pacman")
+pacman::p_load( stringr, dplyr, NHANES, tableone, survey, Matching, MatchIt, purrr, smd, effectsize)
+```
+
+## Question 1
+
+::: {.callout-note icon=false}
+
+## Which of these questions remain relevant today? Are any of them outdated?
+
+**THE EXPERIMENTAL UNITS**
+
+1. *(Q1) Is what you plan truly an experiment?* This question still plays a crucial role since the presence of randomization in the study strongly affects the bias of the statistical results, especially, causal inferences. Once the randomization presents, no longer is the confounding issue to draw the causal effect relationship. In contrast, more statistical approaches are required to attenuate the bias caused mainly by confounding.
+
+2. *(Q2) Why do the experiment? (Q11) What are the objectives and priorities?* These questions relate to the objective question of any study that researchers have to contemplate when they start their studies. In other words, this is the hypotheses of interest that require to be tested through studies. These questions are still important and worth considering. 
+
+3. *(Q3) What experimental unit is to be used? (Q4) Are units ``of equal size"?* These questions are also important when we collect data (sampling techniques) or consider statistical methods to analyse the collected data. Unintentionally, this question often arises as a moot point in discussions between statisticians and experts in the field (biologist, clinicians, etc.) since once experimental unit is specified incorrectly, it leads to incorrect analyses, and hence, incorrect conclusion. This is because specifying the experimental unit is to specify the independence assumption among units, which is crucially important since it can causes inflated false positive. 
+
+4. *(Q5) Are units grouped in any way, such that members of the same group will behave more similarly than members of different groups? (Q6) Do such groups contain equal numbers of units? (Q7) Can units be subdivided, in space or in time, for further treatment comparisons?* These questions relate to grouped units, which is less important since we now have highly powerful machines that can store and analyse big data without grouping. Thus, individual subject data are more practical and used more often than it was in the past.
+
+**THE TREATMENTS**
+
+5. *(Q8) How are proposed treatments structured? (Q9) How rigid are requirements for treatments?* In the role of a statistician or bio-statistician, this question is less important for us since it should be considered by experts in the area since it requires great expertise in the field where the study is undertaken. Structuring interventions requires a depth understanding in application, i.e. how to use the drug to treat patients; otherwise, treatments structured are not used in practice and become unrealistic. 
+
+**RANDOMIZATION**
+
+6. *(Q10) Are there any constraints on random allocation of treatments to units?* Although this question was limited in experimental designs, it is an important question, and we should consider as randomization strongly affect the bias of the statistical result. Thus, randomization need to be considered carefully based on different scenarios. in any case, once the randomization is violated, more statistical approaches need to be contemplated to improve the bias.  
+
+**AIMS**
+
+7. *(Q12) What variates are to be measured? (Q13) What variates are to be analysed?* Again, these questions are discussed with experts in the field since whether the effectiveness depends on one or multiple variates requires the vast knowledge in the field. As the role of (bio)statistician this question should not be considered based only on statistical knowledge. 
+
+**PRECISION**
+
+8. *(Q14) How precise ought results to be?* This question is important and should be considered by statisticians. As the main issue of any statistical analysis, variance and bias are two metrics that requires to be considered endlessly once we conduct statistical analyses.
+
+9. *(Q15) What is known of variability between units?* This question should be considered to choose the experimental unit and assess the independence assumption.  
+
+10. *(Q16) Can any concomitant be usefully measured or recorded? (Q17) Is the experiment isolated or one of a series?* These are also important questions since it affects the bias of the result. 
+
+11. *(Q18) What resources can be used? (Q19) Are there any time constraints? (Q20) Is there any place for planned sequential design?* These three questions are important and should be considered carefully since it ensures the study proceed successfully and guarantee the quality and accurate of the final result.
+
+12. *(Q21) How are results to be recorded? (Q22) What arrangements are needed now for subsequent analysis?* These two question are not important since we now have modern machine that can solve these issues with ease. 
+
+:::
+
+::: {.callout-note icon=false}
+
+## Are there any questions you would add to this paper now, to reflect more modern statistics?
+
+The first question that we should consider, when the objective question pertains to causal effect, relates to measuring confounding between two groups. I.e., the evaluation of dissimilarity between populations that we compare; also, we need to  consider whether the method that we employ to address the dissimilarity problem work effectively and how we evaluate the used method. 
+
+When we analyse the data using the Bayesian framework, the evaluation of the knowledge captured in the priors is an important question. This knowledge has to reflect correctly the belief we assign to the treatment efficacy before observing data. Otherwise, we will face a common question in the Bayesian framework, which is ``if your priors are good enough, why do you need the data?"
+
+The question that ``Do we employ Frequentist of Bayesian paradigm to analyse the data?" is now worth considering since Bayesian framework is becoming more popular.  
+
+:::
+
+::: {.callout-note icon=false}
+
+## How does Finney’s view of the questioning statistician mesh with (or not) the modern theory of causal inference?
+
+The paper focused on the design of experiments but causal inference. However, the author mentioned a few points that we still have to consider in causal inference. The first one relate to randomization and non-randomization data. Most of the problems arise in observational data are caused by non-randomization. Thus, considering this problem is still available. The second point is about variates we need to consider as the confounding in the causal inference. The third one is about precision of the results that is important in all kinds of data analysis including causal inference. The forth one is about the aim of the the study, here, we need to determine our goal is to draw the association or causation.  
+
+:::
+
+
+## Question 2
+
+::: {.callout-note icon=false}
+
+## Vandenbroucke refers to the ``restricted potential outcomes approach" (RPOA). Describe the RPOA, and compare and contrast it to what we discussed in class with regard to causal inference.
+
+RPOA may be employed in two senses, namely technical and philosophical senses. The former concerns a set of mathematical methods and does not imply particular philosophical commitment while the latter involves a restrictive set of convictions about how does causality should be thought of. In other words, RPOA does not aim to pose or answer causal questions as a universal philosophical analysis, but the usefulness of causality that epidemiologists can have. Causality is then useful in the predictive value of causal claims relative to specified interventions. it, therefore, is appealing due to the possibility of prediction under hypothetical scenarios and restricting our attention to causal claims that clearly specify such hypothetical scenarios. We now can characterize the RPOA as follows
+
+a. Causal claims allow prediction under hypothetical scenarios if they are well defined.
+b. Causal claims and questions are well defined when interventions are well specified.
+c. Epidemiologists should restrict their attention to well-defined causal hypotheses, whose hallmark is well-defined interventions.
+d. Except for randomization, observational studies should emulate all aspects of experimental studies because doing so restricts observational studies to investigating well-defined causal hypotheses
+
+The key difference between **R**POA and POA are the **Restriction** within potential human intervention, i.e. interventions or manipulation must be humanly feasible manipulations. Thus, a commitment to humanly feasible interventionism is part of the RPOA in epidemiology. Another difference is that RPOA denies the meaningfulness and usefulness of causal claims that do not readily yield predictions under hypothetical scenarios.
+
+:::
+
+::: {.callout-note icon=false}
+
+## Describe the alternative made by Vandenbroucke et al to the RPOA
+
+The authors recommend a pluralistic approach regarding causal concepts. Thus, we should recognize that the causality can be thought in multiple ways, and we should utilize the approach that seems most apt for the epidemiological problem at hand. In short, it is very plausible that we think about causation in more than one way, and we should keep an open mind as to what exactly the
+nature of causality is. We then work with whatever concept seems most useful from whatever philosophical theories they encounter. Note also that, in epidemiology, taking a strong philosophical position about the nature of causation is not necessary or useful. 
+
+
+
+:::
+
+
+::: {.callout-note icon=false}
+
+## The authors state,11A consequence of the view by Glymour and Glymour is that ```states' like hypertension, hypercholesterolemia, or diabetes can be studied as causes". Can you propose a study to assess the causal effect of hypertension on mortality?
+
+1. ``Impact of hypertension diagnosis on morbidity and mortality: a retrospective cohort study in primary care" @martin2023impact
+2. ``Blood pressure is the most important cause of death and disability in the world" @he2007blood
+
+:::
+
+
+
+
+## Question 3
+
+### 3.1
+
+Note that $\mu$ is unknown.
+
+**Using the exact distribution**
+
+Since $Y_i \sim N(\mu,\sigma^2)$, we have 
+
+$$
+\frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}, \quad\text{where } S^2 = \frac{1}{n-1}\sum_{i=1}^n(Y_i-\overline Y)^2
+$$
+
+Thus, 
+
+$$
+\begin{aligned}
+&P\bigg(F_{\chi^2_{n-1}}^{-1}(\alpha/2) <\frac{(n-1)S^2}{\sigma^2} < F_{\chi^2_{n-1}}^{-1}(1-\alpha/2)\bigg) = 1-\alpha \\
+\Rightarrow& P\bigg(\frac{(n-1)S^2}{\sigma^2F_{\chi^2_{n-1}}^{-1}(1-\alpha/2)}  <\sigma^2 < \frac{(n-1)S^2}{\sigma^2F_{\chi^2_{n-1}}^{-1}(\alpha/2)}\bigg) = 1-\alpha
+\end{aligned}
+$$
+
+**Using convergent distribution**
+
+We have 
+
+$$
+\widehat\sigma^2_{MLE} = \frac{1}{n}\sum_{i=1}^n(Y_i - \overline Y)^2 = \frac{\sum_{i=1}^nY_i^2}{n} - \overline{Y}^2
+$$
+
+By WLLN, we have $\overline{Y^2} \stackrel{p}{\to} \mu_2$, which is the second moment. Also, $\overline Y \stackrel{p}{\to} \mu$, and by the continuous mapping theorem we have $\overline{Y}^2 \stackrel{p}{\to}\mu^2$. We again apply the continuous mapping theorem for the function $g(a,b) = a-b$ $\widehat{\sigma}^2_{MLE} = \overline{Y^2} - \overline{Y}^2 \stackrel{p}{\to} \mu_2 - \mu^2 = \sigma^2$. 
+
+By asymptotic normality of MLE we have 
+
+$$
+\sqrt{n} (\widehat{\sigma}^2_{MLE} - \sigma^2) \stackrel{d}{\to} N\Big(0, \frac{1}{\mathcal{I}(\sigma^2)}\Big),
+$$
+
+where $\mathcal{I}(\sigma^2) = 1/2\sigma^4$, so 
+
+$$
+\sqrt{n} (\widehat{\sigma}^2_{MLE} - \sigma^2) \stackrel{d}{\to} N(0, 2\sigma^4),
+$$ {#eq-1}
+
+We have $\sqrt{n}Var(\widehat{\sigma}^2_{MLE}) = 2\sigma^4$. Using stabilizing transformation we have
+
+$$
+\phi(\sigma^2) = \int\frac{c}{\sigma^2\sqrt{2}}d\sigma^2 = \frac{c}{\sqrt{2}}\ln\sigma^2
+$$
+
+We choose $c = \sqrt{2}$. Thus $\phi(\sigma^2)  = \ln(\sigma^2)$. Now, by delta method we have 
+
+$$
+Var[\log(\widehat{\sigma}^2_{MLE})] = (1/\widehat{\sigma}^2_{MLE})^2|_{\widehat{\sigma}^2_{MLE} = \sigma^2}Var(\widehat{\sigma}^2_{MLE}) = 2
+$$
+Thus,
+
+$$
+\sqrt{n/2}[\log(\widehat{\sigma}^2_{MLE}) - \log(\sigma^2)] \stackrel{d}{\to} N(0,1)
+$$
+
+The CI is then
+
+$$
+\begin{aligned}
+&\Phi^{-1}(\alpha/2) < \sqrt{n/2}[\log(\widehat{\sigma}^2_{MLE}) - \log(\sigma^2)] < \Phi^{-1}(1-\alpha/2)\\
+\Rightarrow & \frac{\Phi^{-1}(\alpha/2)}{\sqrt{n/2}} < \log(\widehat{\sigma}^2_{MLE}) - \log(\sigma^2) < \frac{\Phi^{-1}(1-\alpha/2)}{\sqrt{n/2}}\\
+\Rightarrow & \log(\widehat{\sigma}^2_{MLE}) - \frac{\Phi^{-1}(1-\alpha/2)}{\sqrt{n/2}}  < \log(\sigma^2) < \log(\widehat{\sigma}^2_{MLE}) - \frac{\Phi^{-1}(\alpha/2)}{\sqrt{n/2}} \\
+\Rightarrow &\exp\bigg\{\log(\widehat{\sigma}^2_{MLE}) - \frac{\Phi^{-1}(1-\alpha/2)}{\sqrt{n/2}}\bigg\} < \sigma^2 < \exp\bigg\{\log(\widehat{\sigma}^2_{MLE}) - \frac{\Phi^{-1}(\alpha/2)}{\sqrt{n/2}} \bigg\}
+\end{aligned}
+$$
+
+Alternatively, we don't need to use the stabilizing transformation since @eq-1 can be written as
+
+$$
+\sqrt{n/2}\bigg(\frac{\widehat{\sigma}^2_{MLE}}{\sigma^2} -1\bigg) \stackrel{d}{\to} N(0,1)
+$$
+So 
+
+$$
+\begin{aligned}
+&\Phi^{-1}(\alpha/2) \sqrt{2/n}+1<\frac{\widehat{\sigma}^2_{MLE}}{\sigma^2} < \Phi^{-1}(1-\alpha/2)\sqrt{2/n}+1 \\
+\Rightarrow &\frac{\widehat{\sigma}^2_{MLE}}{\Phi^{-1}(1-\alpha/2)\sqrt{2/n}+1}  < \sigma^2 < \frac{\widehat{\sigma}^2_{MLE}}{\Phi^{-1}(\alpha/2) \sqrt{2/n}+1}
+\end{aligned}
+$$
+
+
+
+### 3.2
+
+**(a)**
+
+```{r}
+p1 = 61/350; p2 = 77/350
+p1 - p2
+```
+
+We check the result using the IPD
+
+```{r}
+x = rep(c(0,1), c(350, 350))|> as.factor(); 
+y = rep(c(0,1,0,1), c(273, 77, 289, 61))
+d = data.frame(y = y,x = x)
+model01 = glm(y ~ x, family = binomial, data = d)
+
+p1_mod =  predict(model01, data.frame(x = x[x ==1]), "response")|> mean()
+p2_mod = predict(model01, data.frame(x = x[x ==0]), "response")|> mean()
+p1_mod - p2_mod
+```
+
+
+**(b)**
+
+*Direct standardization*
+
+```{r}
+p1a = 36/270; p2a = 6/87; 
+p1b = 25/80; p2b = 71/263;
+p1a*0.5 + p1b*0.5 - p2a*0.5 - p2b*0.5
+```
+
+
+*IPTW*
+
+```{r}
+
+#keyhole
+p1 = 270/357; p2 = 80/343
+r_key = (36/p1 + 25/p2)/(357+343)
+
+#open
+p1 = 87/357; p2 = 263/343
+r_open = (6/p1 + 71/p2)/(357+343)
+# absolute risk
+r_key - r_open
+```
+
+Let us check the result using IPD
+
+```{r}
+#| warning: false
+
+open = rep(c(0,1,0,1), c(81,6,192,71));
+w_open = rep(c(1/(87/357), 1/(263/343)), c(87, 263))
+keyhole = rep(c(0,1,0,1), c(234,36,55,25)); 
+w_keyhole = rep(c(1/(270/357), 1/(80/343)), c(270, 80))
+
+out1 = glm(open ~ 1, family = binomial(link = "logit"), weights = w_open)
+out2 = glm(keyhole ~1, family = binomial(link = "logit"), weights = w_keyhole)
+r_open_mod = boot::inv.logit(out1$coefficients)
+r_key_mod<- boot::inv.logit(out2$coefficients)
+
+r_key_mod - r_open_mod
+
+```
+
+
+**(c)**
+
+*Direct standardization*
+
+Suppose the risk difference is $RD = p_1 - p_0$, then $V(RD) = V(p_1) + V(p_0)$, where $p_1$ and $p_0$ are risk of open and keyhole surgery, respectively. Note that 
+
+$$
+p_i = 0.5p_{ij} + 0.5p_{ij}, \quad (i = 0,1)
+$$
+
+where $j = 1,2$ indicates the size of kidney stone. Thus
+
+$$
+V(p_i) = 0.25V(p_{ij}) + 0.25V(p_{ij})
+$$
+
+and $V(p_{ij}) = \frac{p_{ij}(1-p_{ij})}{n_j}$.
+
+*IPTW*
+
+The idea is to use the *bootstrap* or *Robust Sandwich Estimator*. For the shake of simplicity, we translate the contingency tables to individual participant data (IPD). Here we can either do bootstrap manually  using the IPD or fit the model using `glm` in R, and we then use the package `sandwich` to specify the bootstrap or robust estimate. 
+
+Note that functions in the package require the object of `glm` and return the variance of $\eta = \log(\frac{p}{1-p})$. However, the variance of $p$ can be specified using the delta method. 
+
+```{r}
+#| warning: false
+#| collapse: true
+#| 
+sandwich::vcovHC(out1); sandwich::vcovHC(out2) ### robust
+sandwich::vcovBS(out1); sandwich::vcovBS(out1) ### bootstrap
+## check 
+summary(out1)$cov.unscaled; summary(out2)$cov.unscaled ### from model
+```
+
+Note that if $\eta = \log(\frac{p}{1-p})$, then $p = \frac{\exp(\eta)}{1+\exp(\eta)}$. We can then obtain the variance of $p$ using the Delta method. Finally, we calculate the variance of risk difference which is $V(RD) = V(p_1) + V(p_2)$
+
+```{r}
+pDot = \(x) exp(x)/(1+exp(x))^2
+vl1 = sandwich::vcovHAC(out1); vl2 = sandwich::vcovHAC(out1)
+v1 = pDot(out1$coefficients)^2*vl1
+v2 = pDot(out2$coefficients)^2*vl2
+```
+
+Variance of RD is 
+
+```{r}
+v1 + v2
+```
+
+
+<!-- # Question 3 -->
+
+<!-- ```{r} -->
+<!-- NHANES$SmokeNow <- as.numeric(NHANES$SmokeNow)-1 -->
+<!-- small.nhanes <- na.omit(NHANES[NHANES$SurveyYr=="2011_12" & -->
+<!-- NHANES$Age > 17,c(3,4,8:11,13,25,61)]) -->
+<!-- # dim(small.nhanes) ## 1377 -->
+<!-- ``` -->
+
+<!-- ## 1. -->
+
+<!-- ```{r} -->
+<!-- vars = names(small.nhanes)|> {\(i) i[! i %in% c("BPSysAve", "SmokeNow")] }() -->
+<!-- tabUnmatched <- CreateTableOne(vars = vars, strata = "SmokeNow", data = small.nhanes, -->
+<!--                                test = FALSE) -->
+<!-- print(tabUnmatched, smd = TRUE) -->
+<!-- ``` -->
+
+<!-- ## 2. -->
+
+<!-- We estimate the propensity score using the logistic model: -->
+
+<!-- ```{r} -->
+
+<!-- psModel = glm(SmokeNow ~ Gender + Age +Race3 + Education + MaritalStatus + -->
+<!--                 HHIncome + Poverty, family = binomial(link = "logit"),  -->
+<!--               data = small.nhanes) -->
+<!-- small.nhanes$ps<- predict(psModel, type = "response") -->
+<!-- ``` -->
+
+<!-- We stratify the data based on the estimated propensity score using quintiles: -->
+
+<!-- ```{r} -->
+<!-- quintiles <-  -->
+<!--   quantile(small.nhanes$ps, prob = seq(from = 0,to = 1, by = 0.2), na.rm = T) -->
+<!-- small.nhanes$ps.stratify <-  -->
+<!--   cut(small.nhanes$ps, breaks = quintiles, labels = LETTERS[1:5], include.lowest = T) -->
+<!-- ``` -->
+
+
+
+
+\newpage 
+
+## References
+
+
+
+
+
