@@ -1,0 +1,318 @@
+---
+title: "Bootstrapping"
+subtitle: '"pulling oneself up by one’s bootstraps"'
+author: "Qicheng Zhao, Kent Lu, Nam-Anh Tran"
+format: 
+  revealjs:
+    theme: league
+    transition: fade
+editor: source
+fontsize: 19.5pt
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+params:
+  Bboot: 10000
+  ss: 50
+bibliography: references.bib
+---
+
+## Introduction
+
+- The bootstrap is a method for estimating the **_variance_** of an estimator and for constructing approximate **_confidence intervals_** for parameters.
+- It can also be used for testing hypothesis. However, we won't consider the hypothesis tests but confidence intervals, which are more appealing. 
+
+```{r, fig.align='center'}
+knitr::include_graphics("pic02.png")
+```
+
+## Theory of bootstrap \| Notations (1/2)
+
+- Population has an unknown distribution $F \in \mathfrak{F}$. 
+- The parameter of the population is $\theta = T(F)$, where $T: \mathfrak{F} \to \mathbb{R}^{d}$.
+   - $\mu = \int xdF$,
+   - $\sigma^2 = \int x^2 dF - \mu^2$,
+   - $F^{-1}(p) = \arg\max_{x}\{\int_{-\infty}^xdF \le p\}$.
+- Estimate of parameter $\widehat{\theta} = T(F_n)$, where $F_n$ is _empirical distribution function_. For example, 
+
+$$
+\widehat \mu = T(F_n) = \frac{1}{n}\sum_{i=1}^nX_i,
+$$
+
+which is the plug-in estimator of $\theta$.
+
+## Theory of bootstrap \| Notations (2/2) {.scrollable}
+
+- Let $\boldsymbol{X} = (X_1, X_2, \dots, X_n)$ is a random sample from $F$. 
+- We obtain the bootstrap sample from the original sample $\boldsymbol{X} = (X_1, X_2, \dots, X_n)$ with **replacement**. This step is equivalent to 
+
+$$
+X_1^*, X_2^*, \dots, X_n^* \sim F_n
+$$
+
+- We then construct an estimate $\widehat{\theta}^*_n = T(F_n^*)$ for $\widehat{\theta}$, where $F^*_n$ is edf of $\boldsymbol{X}^* = (X_1,^*, X_2^*, \dots, X^*_n)$. 
+
+
+```{r, fig.align='center', width="150%"}
+knitr::include_graphics("pic01.png")
+```
+
+## Theory of bootstrap \| bootstrap idea
+
+$$
+\widehat{\theta}_n - \theta \approx \widehat{\theta}^*_n - \widehat{\theta}_n,
+$$
+
+
+i.e., the distribution of two random variables $(\widehat{\theta}_n - \theta)$ and $(\widehat{\theta}^*_n - \widehat{\theta}_n)$ are approximately the same. Note that the dsitribution of $\widehat{\theta}_n$ and $\widehat{\theta}^*_n$ are not the same. Thus,
+
+\begin{aligned}
+&\text{Bias}_F(\widehat{\theta}_n) &&= \mathbb{E}_F(\widehat{\theta}_n - \theta) \approx \mathbb{E}_{F_n}(\widehat{\theta}^*_n - \widehat{\theta}_n);\\
+
+&\mathbb{V}_F(\widehat{\theta}_n) &&= \mathbb{V}_F(\widehat{\theta}_n - \theta) \approx \mathbb{V}_{F_n}(\widehat{\theta}^*_n - \widehat{\theta}_n)
+\end{aligned}
+
+- We know $F_n$. We can find theoretical properties of the distribution of $(\widehat{\theta}^*_n - \widehat{\theta}_n)$ with ease.
+- Bootstrapping is an approach to statistical inference based on building a sampling distribution for a statistic by resampling from the data at hand.
+- The term bootstrapping due to Efron (1979), is an allusion to the expression _"pulling oneself up by one's bootstraps"_, in this case using the sample data as a population from which repeated samples are drawn. 
+
+## Theory of bootstrap \| Bootstrap for bias correction (1/2) {.scrollable}
+
+Suppose we have a biased estimate $\widehat{\theta}_n$:  
+
+$$
+\mathbb{E}_F(\widehat\theta_n) \ne \theta.
+$$
+
+- Could we obtain a better estimate using bootstrap? 
+- If yes, could we use the bootstrap estimator as a better one? 
+i.e. 
+
+$$
+|\mathbb{E}_{F_n}(\widehat{\theta}^*_n) - \theta| < |\mathbb{E}_F(\widehat\theta_n) - \theta|
+$$
+
+<!-- ::: {.fragment .fade-in} -->
+<!-- Note that the total information of population used for bootstraping is from $F_n$. What if the sample $F_n$ can't represent the population?  -->
+<!-- ::: -->
+
+
+## Theory of bootstrap \| Bootstrap for bias correction (2/2) {.scrollable}
+
+Since 
+
+\begin{aligned}
+\mathbb{E}_F(\widehat\theta_n) - \theta &\approx  \mathbb{E}_{F_n}(\widehat{\theta}^*_n) - \widehat{\theta}_n,\\
+(\text{indeterminable bias} &\approx \text{determinable bias using bootstrap} )
+\end{aligned}
+
+
+Thus,
+
+\begin{aligned}
+
+&\mathbb{E}_F(\widehat\theta_n) \approx \theta + \text{Bias}_F(\widehat{\theta}_n)
+&&\Leftrightarrow \theta \approx \mathbb{E}_F(\widehat\theta_n) - \text{Bias}_F(\widehat{\theta}_n)
+\\ \text{and},\quad 
+&\widehat{\text{Bias}}_F(\widehat{\theta}_n) \approx  \mathbb{E}_{F_n}(\widehat{\theta}^*_n) - \widehat{\theta}_n
+\end{aligned}
+
+We then have
+
+$$
+\theta \approx \mathbb{E}_{F}\big[\widehat{\theta}_n - \widehat{\text{Bias}}_F(\widehat{\theta}_n)\big] =  \mathbb{E}_{F}\big[\widehat{\theta}_n - \mathbb{E}_{F_n}(\widehat{\theta}^*_n) + \widehat{\theta}_n\big]
+$$
+
+
+Finally,
+
+$$
+\theta \approx 2\widehat{\theta}_n - \mathbb{E}_{F_n}(\widehat{\theta}^*_n)
+$$
+
+- This result remains valid as long as the sampling distribution of $\widehat{\theta}_n -\theta$ is close to that of $\widehat{\theta}^*_n-\widehat{\theta}_n$
+- This is a weaker requirement than asking for $\widehat{\theta}_n$ and $\widehat{\theta}^*_n$ themselves hae similar distributions, or asking for $\widehat{\theta}_n$ be close to $\theta$. 
+
+
+## Bootstrap algorithm for estimating the variance {.scrollable}
+
+1. Using $\mathbf{X} = (X_1,\dots, X_n)$, obtain the edf $F_n(t) = \frac{1}{n}\sum_{i=1}^{n}\mathbb{I}(X_i\leq t), t \in \mathbb{R}$.
+2. For $b = 1, 2, \dots , B$, with $B$ being large,
+   - Draw a simple random sample with replacement $X^*_b = (X^*_{1,b}, \dots , X^*_{n,b})$ from $F_n$ (or equivalently from $\mathbf{X}$).
+   - Calculate the bootstrap edf $F^*_{n,b}=\frac{1}{n}\sum_{i=1}^{n}\mathbb{I}(X_{i,b}^*\leq t)$.
+   - Calculate the bootstrap replicates of $\widehat{\theta}_{n}$ given by $\widehat{\theta}_{n,b}^* = T(F^*_{n,b})$.
+3. After calculating $\widehat{\theta}_{n,1}^*, \dots, \widehat{\theta}_{n,B}^*$. We compute 
+
+$$
+Var_B(\widehat{\theta}_n)= \frac{1}{B-1}\sum_{i=1}^{B}(\widehat{\theta}_{n,i}^* - \bar{\theta}^*) \approx Var_{F_n}(\widehat{\theta}^*_{n} )
+$$
+
+where
+
+$$
+\bar{\theta}^* = \frac{1}{B} \sum_{b=1}^{B}\widehat{\theta}^*_{n,b} \approx \mathbb{E}_{F_n}(\widehat{\theta}_n^*)  
+$$
+
+- In principal, we need to simulate ${{n+n-1}\choose{n}}$ simple random samples with replacement (why?), but a large $B = 10,000$ is sufficient. 
+- Two sources of errors: 
+   - Using $F_n$ instead of $F$. $(\sigma^2)$
+   - Simulating B iterations instead of all bootstrap samples.  $(s^2)$
+
+$$
+\mathbb{V}_F(\widehat{\theta}_n) \stackrel{O(1/\sqrt n)}{\approx}
+\mathbb{V}_{F_n}(\widehat{\theta}_n) \stackrel{O(1/\sqrt B)}{\approx}
+\mathbb{V}_{B}(\widehat{\theta}_n)
+$$
+
+- There are two types of bootstrap: parametric (we skip this) and nonparametric. 
+
+
+## Example with a normal distribution {.scrollable}
+
+::: {.panel-tabset}
+
+### $N(23, 7^2)$ 
+
+```{r, fig.height=6}
+par(mfrow = c(2,2))
+mu = 23; sigma = 7
+set.seed(1234); Y = rnorm(params$ss, mu, sigma)
+y_hat = mean(Y)
+y_star<- replicate(params$Bboot,{sample(Y,params$ss, replace = T)|> mean()})
+
+curve(dnorm(x, mu, sigma), xlim = c(mu-20, mu+20), ylab = "Density", xlab = "Population"); abline(v = mu, col = "red")
+curve(dnorm(x, mu, sigma/sqrt(params$ss)), xlim = c(mu-20, mu+20) , ylab = "Density", xlab = expression(Sampling~distribution~of~bar(x)) ); abline(v = mu, col = "red")
+
+plot(density(Y), xlim = c(mu-20, mu+20), xlab = "Sample of n = 50", main = ""); abline(v = y_hat, col = "red")
+plot(density(y_star), xlim = c(mu-20, mu+20), xlab ="Bootstrap distribution", main = ""); abline(v = mean(y_star), col = "red")
+```
+
+@chihara2022mathematical
+
+### summary statistics
+
+```{r}
+dplyr::tibble(` ` = c("population", "Sample*","Sampling distribution $\\bar{X}$", "Bootstrap distribution*"),
+              `Mean` = c(mu, y_hat, mu, mean(y_star)),
+              `Standard deviation` = c(sigma, sd(Y), sigma/sqrt(params$ss), sd(y_star))
+              )|>
+  dplyr::mutate_if(is.numeric, \(i) round(i,2))|>
+  knitr::kable()
+```
+
+- Bootstrap distribution has approximately the same spread and shape as rhe sampling distribution of the statistic (i.e. $\bar x$).
+- The centre of the bootstrap distribution is at the centre of the original sample.
+- Therefore, we do not use the center of the bootstrap distribution in
+its own right, but we do compare the center of the bootstrap distribution with the
+observed statistic; if they differ, it indicates bias.
+
+### Increase n
+
+```{r, fig.align='center'}
+#| fig-height: 10
+knitr::include_graphics("tx-sales.gif")
+```
+
+:::
+
+## Distribution of the bootstrap estimator of the median {.scrollable}
+
+- Sometimes, we can perform the bootstrap analytically. 
+
+- **_Example:_** Let $\theta = T(F) = F^{-1}(0.5)$ based on the sample size $n = 2m+1$ from an unknown distribution $F$. Thus, $\widehat \theta = T(F_n) = F_n^{-1}(0.5) = X_{(m)}$. Suppose $\boldsymbol{X}^* = (X^*_1,\dots,X^*_n)$ be a bootstrap sample from $F_n$. Let $\widehat{\theta}^*_n = X^*_{(m)}$.
+
+- Let $M_j$ be the number of $X_j$ in $\boldsymbol{X}^*$. Thus, 
+
+$$
+\boldsymbol{M} = (M_1,\dots,M_2) \sim Bin_n(n, \boldsymbol{p}), \quad\text{where } 
+\boldsymbol{p} = (1/n,1/n,\dots, 1/n)
+$$
+
+Since
+
+$$
+\{X^*_{(m)}\} > X_{(k)} = \{nF^*_n(X_{(k)}) \le m-1 \},
+$$
+
+and
+
+\begin{aligned}
+\mathbb{P}(X^*_{(m)} > X_{(k)}) &= \mathbb{P}(nF^*_n(X_{(k)}) \le m-1) \\
+&= \mathbb{P}(Bin(n,k/n) \le  m -1), \quad (\textit{how many numbers are less than } x_{(k)})\\
+&= \sum_{j=0}^{m-1} {{n}\choose{j}} (k/n)^j(1-k/n)^{n-j}
+\end{aligned}
+
+This implies 
+
+$$
+\mathbb{P}_{F_n}(X^*_{(m)} = X_{(k)}) = \sum_{j=0}^{m-1} {n\choose j} \bigg\{\Big(\frac{k-1}{n}\Big)^j\Big(1-\frac{k-1}{n}\Big)^{n-1} -
+\Big(\frac{k}{n}\Big)^j\Big(1-\frac{k}{n}\Big)^{n-1}
+\bigg\},
+$$
+
+for $k = 1,\dots,n$, that is the sampling distribution of $X^*_{(m)}$ the bootstrap estimator. 
+
+## Recap the Jackknife method {.scrollable}
+
+- The jackknife is a simple method for approximating the bias and variance of an estimator. 
+- Let $T_n = T(X_1,\dots, X_n)$ be an estimator of some quantity $\theta$ and let $bias(T_n) = \mathbb{E}(T_n) − \theta$ denote the bias. 
+- Let $T_{(−i)}$ denote the statistic with the $i$th observation removed. The jackknife bias
+estimate is defined by
+
+$$
+b_{jack} = (n-1)(\bar{T}_n - T_n),
+$$
+
+where $\bar{T}_n = n^{-1}\sum_iT_{(-i)}$. The biased corrected estimator is
+
+$$
+T_{jack} = T_n - b_{jack}
+$$
+
+We can show that $Bias(T_{jack}) = O(1/n^2)$.
+
+Note that for many statistics it can be shown that
+
+$$
+bias(T_n) = \frac{a}{n} + \frac{b}{n^2} + \text{O}(\frac{1}{n^3})
+$$
+
+For example, $\mathbb{E}(S^2) = \sigma^2 - \sigma^2/n$; thus, $bias(S^2) = -\sigma^2/n$ (compared this to $\text{O}(1/n)$).
+
+## Failure of Efron's nonparametric bootstrap {.scrollable}
+
+Both Jackknife and bootstrap method fail for some functions $T(F)$ which are not sufficiently smooth. 
+
+We consider the following example where the EDF is not a sufficiently accurate estimator of the population (true) distribution for the bootstrap to succeed. 
+
+Suppose $\boldsymbol{X} = (X_1,\dots,X_n) \stackrel{iid}{\sim} U(0,\theta)$. Let the parameter of interest is $\widehat{\theta}_n = X_{(n)}$. Thus
+
+$$
+n(\theta-\widehat{\theta}_n) = n\theta(1 - \frac{X_{(n)}}{\theta}) \stackrel{d}{=} n\theta(1-\xi_{(n)}) \stackrel{d}{\to} \theta Y,
+$$
+where $Y \sim Exp(1)$. So,
+
+$$
+\widehat{\theta}_n \sim Exp(1/\theta)
+$$
+
+Now, let $\boldsymbol{X}^* = (X^*_1,\dots,X^*_n)$ be iid (bootstrap) sample from $\widehat{F}_n$. Let $\widehat{\theta}^*_n = X^*_{(n)}$. Then 
+
+$$
+\begin{aligned}
+\mathbb{P}(\widehat{\theta}^*_n = X_{(n)}|\widehat{F}_n) &= 1 - \mathbb{P}(X^*_{(n)}< X_{(n)}|\widehat{F}_n)\\
+&= 1 - \mathbb{P}(\text{all } X^*_i < X_{(n)}|\widehat{F}_n)\\
+&= 1 - \Big(\frac{n-1}{n}\Big)^n\\
+&=1 - \Big(1 - 1/n\Big)^n \to 1 - e^1 \approx 0.62
+\end{aligned}
+$$
+
+
+
+
+
+
+
+
+

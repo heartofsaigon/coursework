@@ -1,0 +1,59 @@
+---
+title: "Bootstrapping and Jackknife"
+subtitle: '"pulling oneself up by one’s bootstraps"'
+author: "Qicheng Zhao, Kent Lu, Nam-Anh Tran"
+format: 
+  revealjs:
+    theme: blood
+    transition: fade
+    slide-number: true
+    logo: mcgilllogo.png
+    css: logo.css
+editor: source
+fontsize: 20pt
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+params:
+  Bboot: 10000
+  ss: 50
+bibliography: references.bib
+csl: vancouver.csl
+---
+
+## Agenda
+
+1.  Introduction
+    -   What is the bootstrap method?
+    -   Settings
+2.  Theory of bootstrap
+    -   Key points and essential proofs
+    -   Does it work well in any case?
+3.  Five types of Bootstrap confidence interval (CI).
+    -   How to conduct the Bootstrap CI
+    -   Examples
+4.  Three ways to use Bootstrap for linear regression.
+    -   How to conduct CI for parameters of a linear model
+    -   Examples
+
+
+```{r, results='asis', echo=FALSE}
+a <- knitr::knit_child('bootstrap(slide)_Namanh.qmd', quiet=T)
+cat(a, sep='\n')
+```
+
+
+```{r, results='asis', echo=FALSE}
+a <- knitr::knit_child('bootstrap(slide)_Kent.qmd', quiet=T)
+cat(a, sep='\n')
+```
+
+
+```{r, results='asis', echo=FALSE}
+a <- knitr::knit_child('bootstrap(slide)_Zeb.qmd', quiet=T)
+cat(a, sep='\n')
+```
+
+
+## References

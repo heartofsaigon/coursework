@@ -1,0 +1,375 @@
+---
+title: "Bootstrapping"
+subtitle: '"pulling oneself up by one’s bootstraps"'
+author: "Qicheng Zhao, Kent Lu, Nam-Anh Tran"
+format: 
+  revealjs:
+    theme: league
+    transition: fade
+editor: source
+fontsize: 19.5pt
+execute: 
+  echo: false
+editor_options: 
+  chunk_output_type: console
+params:
+  Bboot: 1000
+  ss: 50
+bibliography: references.bib
+---
+
+
+## Bootstrap Confidence intervals
+
+(@francisco2016comparing, @note2017M)
+
+a. The standard normal bootstrap CI,
+b. The percentile bootstrap CI,
+c. The basic bootstrap CI,
+d. The Bias Corrected and accelerated (BCa) CI,
+e. Studentized Pivotal CI
+
+## standard normal CI
+
+Suppose $\widehat{SE}_B = \sqrt{Var_B(\widehat{\theta})}$. Under this method a 100(1 − α)% bootstrap confidence interval for
+$\theta$ is given by
+
+$$
+\widehat{\theta} \pm Z_{1-\frac{\alpha}{2}} \widehat{SE}_B
+$$
+where $Z_{1-\frac{\alpha}{2}} = \Phi^{-1}
+(1 − \alpha/2)$, with $\Phi(.)$ the standard Gaussian CDF.
+
+In practice $\widehat{SE}_B = \sqrt{Var_B(\widehat{\theta})}$ is estimated using a
+bootstrap estimator of the standard error of $\widehat{\theta}$, which is $\sqrt{Var_B(\widehat{\theta^*})}$ (shown earlier).
+
+```{r,echo=FALSE}
+##| tbl-cap: Confidence interval using the standard normal.
+# Sample data
+mu = 23; sigma = 7
+set.seed(1234); data <- rnorm(params$ss,mu,sigma)
+
+samp_mean = mean(data)
+critical_value <- qt(1 - (1 - 0.95) / 2, df = params$ss - 1) #critical value
+SE = sd(data) / sqrt(params$ss) # std error 
+
+#The margin of error (ME) represents the maximum distance from the sample mean that you expect the true population mean to be within. It is determined by multiplying the critical value by the standard error of the mean.
+ME = critical_value*SE
+low<- samp_mean-ME
+up<- samp_mean+ME
+
+# Set seed for reproducibility
+
+#mean(data)-quantile(bootstrap_statistics, 0.975)
+# Number of bootstrap samples
+num_samples <- params$Bboot
+
+# Bootstrap function
+bootstrap_mean <- function(data, num_samples) {
+  n <- length(data)
+  means <- numeric(num_samples)
+  
+  for (i in 1:num_samples) {
+    resample <- sample(data, replace = TRUE)
+    means[i] <- mean(resample)
+  }
+  
+  return(means)
+}
+
+# Generate bootstrap samples
+bootstrap_samples <- bootstrap_mean(data, num_samples)
+
+
+upper<-mean(data)+qnorm(1-0.05/2, mean=0, sd=1)*sqrt(var(bootstrap_samples))
+
+lower<-mean(data)-qnorm(1-0.05/2, mean=0, sd=1)*sqrt(var(bootstrap_samples))
+
+normal_mean = mean(bootstrap_samples)
+normal_low = lower; normal_up = upper
+              
+#dplyr::tibble(`$\\overline{\\bar{x}^*}$` = mean(bootstrap_samples ), `lower bound` = lower, `upper bound` = upper)|>
+ # dplyr::mutate_all(\(i) round(i,2))|>
+  #knitr::kable()
+
+
+# Compute bootstrap confidence interval
+#lower <- quantile(bootstrap_samples, 0.025)
+#upper <- quantile(bootstrap_samples, 0.975)
+
+
+# cat("Sample data (resampled 1000 times) : [", data, "]\n")
+# # Print results Bootstrap Standard normal Confidence Interval
+cat("Standard Normal Bootstrap Confidence Interval (95%): [",lower, ", ", upper,']')
+```
+
+## percentile bootstrap CI
+
+- After calculating $\widehat{\theta}_{1}^* , \dots , \widehat{\theta}_{B}^*$ (in the same way as shown earlier), 
+- Let $\widehat{\theta}_{l}^*$ and $\widehat{\theta}_{u}^*$ represent the quantiles of $\widehat{\theta}_{b}^*$'s corresponding to $l = \frac{Bα}{2}$ and $u = B(1 − \frac{\alpha}{2})$, respectively. 
+- For example if $B = 2000$ and $1 − \alpha = 0.95$, then
+$l = 50$ and $u = 1950$. After ordering the values of $\widehat{\theta}_{(1)}^* , \dots , \widehat{\theta}_{(2000)}^*$ from the minimum to the maximum, we obtain ($\widehat{\theta}_{(50)}^*, \widehat{\theta}_{(1950)}^*$)
+as a 95% confidence interval for $\theta$.
+- If $l$ and $u$ are not integers $\rightarrow$ interpolate between adjacent ordered $\widehat{\theta}^*$ values/rounding.
+
+```{r,echo=FALSE}
+# Sample data same as earlier
+
+# Number of bootstrap samples
+num_samples <-params$Bboot
+
+# Bootstrap function
+bootstrap_mean <- function(data, num_samples) {
+  n <- length(data)
+  means <- numeric(num_samples)
+  
+  for (i in 1:num_samples) {
+    resample <- sample(data, replace = TRUE)
+    means[i] <- mean(resample)
+  }
+  
+  return(means)
+}
+
+# Generate bootstrap samples
+bootstrap_samples <- bootstrap_mean(data, num_samples)
+
+#Compute bootstrap confidence interval
+lower <- quantile(bootstrap_samples, 0.025)
+upper <- quantile(bootstrap_samples, 0.975)
+
+perc_mean = mean(bootstrap_samples)
+perc_low = lower; perc_up = upper
+
+
+#Print results percentile Confidence Interval
+cat("Percentile Bootstrap Confidence Interval (95%): [",lower, ", ", upper, "]\n")
+```
+
+## basic bootstrap CI (pivotal CI)
+
+- Transforms the distribution of the replicates by subtracting the observed statistic
+- First, define the pivot $Q(X) = \widehat{\theta}(X) − \theta$ and let $\widehat{\theta}_{1}^*,\dots,\widehat{\theta}_{B}^*$ denote the bootstrap replicates of $\widehat{\theta}$, H(q) denote the CDF of Q
+
+$$
+H(q) = P_F (Q(X) ≤ q)
+$$ 
+
+The interval is defined as:
+
+$$
+(\widehat{\theta}({\mathbf{X}})-H^{-1}(1-\frac{\alpha}{2}),\widehat{\theta}({\mathbf{X}})-H^{-1}(\frac{\alpha}{2}))
+$$
+
+## basic bootstrap CI (pivotal CI)
+
+It is easy to see that this interval has a confidence level $1 − \alpha$. 
+
+However, $H(·)$ is unknown $\rightarrow$ bootstrap estimator:
+
+$$ 
+\widehat{H}_{b}^* (q) = \frac{1}{B}\sum_{b=1}^{B}\mathbb{I}(Q_{b}^*\leq q)
+$$
+
+where $Q_{b}^* = \widehat{\theta}_{b}^* - \widehat{\theta}^*$. 
+
+- Let $q_{\gamma}^*$ and  $\widehat{\theta}_{\gamma}^*$ be the $\gamma$-th sample quantiles of $\{Q_{1}^*,\dots,Q_{B}^*\}$ and $\{\widehat{\theta}_{1}^*,\dots,\widehat{\theta}_{B}^*\}$, respectively.
+- That is $\gamma \approx H^* (q_\gamma^*)$ and $\gamma \approx P(\widehat{\theta}^*\leq\widehat{\theta}_{\gamma}^*)$. 
+
+## basic bootstrap CI (pivotal CI)
+
+Set 
+
+\begin{align}
+\widehat{a} &= \widehat{\theta} - \widehat{H^*}^{-1} (1-\frac{\alpha}{2}) 
+\\&= \widehat{\theta} - q_{1-\frac{\alpha}{2}}^* 
+\\&= 2\widehat{\theta} - \widehat{\theta}_{1-\frac{\alpha}{2}}^*
+\end{align}
+
+Then 
+
+\begin{align}
+\widehat{b} &= \widehat{\theta} - \widehat{H^*}^{-1} (\frac{\alpha}{2}) 
+\\&= \widehat{\theta} - q_{\frac{\alpha}{2}}^* 
+\\&= 2\widehat{\theta} - \widehat{\theta}_{\frac{\alpha}{2}}^*
+\end{align}
+
+## basic bootstrap CI (pivotal CI)
+
+The approximate 100(1 − α)% confidence interval for $\theta$ is
+
+$$
+(2\widehat{\theta} - \widehat{\theta}_{1-\frac{\alpha}{2}}^*,2\widehat{\theta} - \widehat{\theta}_{\frac{\alpha}{2}}^*)
+$$
+It can be shown that 
+
+$$
+ P(2\widehat{\theta} - \widehat{\theta}_{1-\frac{\alpha}{2}}^*\leq\theta
+ \leq 2\widehat{\theta} - \widehat{\theta}_{\frac{\alpha}{2}}^*) \longrightarrow 1 - \alpha  \hspace{0.3cm} \textrm{  as  } n \rightarrow \infty
+$$
+
+```{r, echo=FALSE}
+# Number of bootstrap samples
+B <- params$Bboot
+
+# Function to compute statistic of interest
+statistic <- function(x) {
+  return(mean(x))
+}
+
+# Bootstrap resampling
+bootstrap_samples <- replicate(B, sample(data, replace = TRUE))
+
+bootstrap_Q<-bootstrap_samples - replicate(B,data)
+
+# Compute statistic for each bootstrap sample
+bootstrap_statistics <- apply(bootstrap_Q , 2, statistic)
+
+# Calculate lower and upper quantiles for confidence interval
+lower <- mean(data)-quantile(bootstrap_statistics, 0.975)
+upper <- mean(data)-quantile(bootstrap_statistics, 0.025)
+
+pivot_mean = mean(data)
+pivot_low = lower; pivot_up = upper
+
+# Print result
+cat("Pivotal Bootstrap Confidence Interval (95%): [", lower, ", ", upper, "]\n")
+```
+
+
+## Bias Corrected and accelerated (BCa) CI \| (1/3) {.scrollable}
+
+- Modified version of the percentile CIs $X_{1,b}^*, \dots, X_{n,b}^*$ ($b = 1,\dots,B$) from the original sample, $X_1, X_2, \dots, X_n$, and computing the bootstrap (parametric or nonparametric) estimators $\widehat{\theta}_b^\star$. The (1-$\alpha$) BCa CI is given by:
+
+$$
+[\widehat{\theta}^\star_{\alpha_1B},  \widehat{\theta}^\star_{\alpha_2B}]
+$$
+
+where 
+
+$$
+\alpha_1 = \Phi
+\biggl(\widehat{z}_0 +\frac{\widehat{z}_0+z_{\alpha/2}}{1-\widehat{a}(\widehat{z}_0+z_{\alpha/2})}\biggr)
+$$
+
+and 
+$$
+\alpha_2 = \Phi
+\biggl(\widehat{z}_0 +\frac{\widehat{z}_0+z_{1-\alpha/2}}{1-\widehat{a}(\widehat{z}_0+z_{1-\alpha/2})}\biggr)
+$$
+
+with $z_\alpha = \Phi^{-1}(\alpha)$ and $\widehat{a}$ bias correction and the acceleration adjustment estimators, respectively. 
+
+## Bias Corrected and accelerated (BCa) CI \| (2/3) {.scrollable}
+
+- Bias correction factor - median bias of the replicates $\widehat{\theta}^*$ for $\widehat{\theta}$:
+
+$$
+\widehat{z}_0 = \Phi^{-1} \biggl(\frac{1}{b}\sum_{b=1}^{B}\mathbb{I}(\widehat{\theta}^*\leq\widehat{\theta})\biggr)
+$$
+
+$\widehat{z}_0 = 0$ if $\widehat{\theta}^*$ is the median of the bootstrap replicates. 
+
+- Acceleration constant $a$: rate of change of the standard error of
+$\widehat{\theta}$ with respect to the true statistic $\theta$; can be estimated as:
+
+$$
+\widehat{a} = \frac{\sum_{i=1}^{n}(\overline{\widehat{\theta}_{(.)}}-\widehat{\theta}_{(i)})^3}{6[\sum_{i=1}^{n}(\overline{\widehat{\theta}_{(.)}}-\widehat{\theta}_{(i)})^2]^{3/2}}
+$$
+
+where here $\widehat{\theta}_{(i)}$ denotes the i-th jackknife estimate, and $\overline{\widehat{\theta}_{(.)}}$
+is the arithmetic mean of all jackknife estimates.
+
+```{r}
+# Number of bootstrap samples
+B <- params$Bboot
+
+# Function to compute statistic of interest
+statistic <- function(x) {
+  return(mean(x))
+}
+
+# Bootstrap resampling
+bootstrap_samples <- replicate(B, sample(data, replace = TRUE))
+
+# Compute statistic for each bootstrap sample
+bootstrap_statistics <- apply(bootstrap_samples, 2, statistic)
+
+# Original statistic
+original_statistic <- statistic(data)
+
+# Bias correction
+bias_correction <- original_statistic - mean(bootstrap_statistics)
+
+# Acceleration term
+acceleration_term <- sum((bootstrap_statistics - original_statistic)^3) / (6 * sum((bootstrap_statistics - original_statistic)^2)^(3/2))
+
+# BCa adjustment
+z_alpha <- qnorm(0.025)
+z_alpha_star <- qnorm((1 + z_alpha)/(1 - z_alpha))
+
+# Calculate lower and upper quantiles for BCa confidence interval
+lower <- quantile(bootstrap_statistics + (bootstrap_statistics - original_statistic - bias_correction) / (1 - acceleration_term * (bootstrap_statistics - original_statistic)), 0.025)
+upper <- quantile(bootstrap_statistics + (bootstrap_statistics - original_statistic - bias_correction) / (1 - acceleration_term * (bootstrap_statistics - original_statistic)), 0.975)
+
+bca_mean = mean(bootstrap_statistics )
+bca_low = lower; bca_up = upper
+
+# Print result
+cat("Bias Corrected and accelerated (BCa) CI (95%): [", lower, ", ", upper, "]\n")
+```
+
+## Bias Corrected and accelerated (BCa) CI \| (3/3)
+
+The following bootstrap CIs are generated from a rnorm(50,23,7) dataset resampled 10,000 times.
+
+```{r}
+#| tbl-cap: Bootstrap Confidence interval compared with the t- confidence interval 
+library(dplyr)
+norm = "std normal"; percent = "percentile"; pivot = "pivotal"; bca = "BCa"; samp = "sample t-CI (benchmark)"
+#| tbl-cap: Bootstrap Confidence interval using the standard normal.
+#$\\overline{\\bar{"\u03B8"}^*}$` = c(normal_mean,perc_mean,pivot_mean,bca_mean)
+tibble(`type`= c(samp,`norm`,percent,pivot,bca), `lower bound` = c(low,normal_low,perc_low,pivot_low,bca_low), `upper bound` = c(up,normal_up,perc_up,pivot_up,bca_up),"interval width" = c(up-low,normal_up-normal_low,perc_up-perc_low,pivot_up-pivot_low,bca_up-bca_low)%>%round(.,3))|> mutate_at(2:3, funs(round(., 3)))|>
+  knitr::kable()
+```
+
+
+## Studentized pivotal CI {.scrollable}
+
+::: {.panel-tabset}
+
+### Procedure
+
+Let $\widehat{\theta}_n := \widehat{\theta}(X)$. Then
+
+$$
+Z_n = \frac{\widehat{\theta}_n-\theta}{\widehat{SE}_B}; \quad Z^*_{n,b} = \frac{\widehat{\theta}_n^*-\widehat\theta_n}{\widehat{se}_b^*},
+$$
+
+where $\widehat{se}_b^*$ is an estimate of the SE of $\widehat{\theta}^*_b$ not $\widehat{\theta}_n$. 
+
+Thus, sample quantiles of the bootstrap quantities $Z^*_{n,1},\dots,Z^*_{n,B}$ should approximately the true quantiles of the distribution of $Z_n$. Let $Z^*_{\alpha}$ denote the $\alpha$ sample quantiles of $Z^*_{n,1},\dots, Z^*_{n,B}$, then $\mathbb{P}(Z_n \le Z^*_{\alpha}) \approx \alpha$. Let
+
+$$
+C_n(\boldsymbol{X}) = (\widehat{\theta}_n - Z^*_{1-\alpha/2}\widehat{SE}_B,\widehat{\theta}_n + Z^*_{1-\alpha/2}\widehat{SE}_B )
+$$
+
+Then,
+
+\begin{aligned}
+\mathbb{P}(\theta \in C_n(\boldsymbol{X})) &= \mathbb{P}(\widehat{\theta}_n - Z^*_{1-1/\alpha}\widehat{SE}_B \le \theta \le \widehat{\theta}_n  + Z^*_{1-1/\alpha}\widehat{SE}_B)\\
+&= \mathbb{P}(Z^*_{\alpha/2} \le \frac{\widehat{\theta}_n - \theta}{\widehat{SE}_B} \le Z^*_{1-\alpha/2}) \\
+&= \mathbb{P}(Z^*_{\alpha/2} \le Z_n \le Z^*_{1-\alpha/2}) \\
+&= 1 - \alpha
+ \end{aligned}
+
+- This method is also called "double bootstrap" since it requires to compute $\widehat{se}^*_b$ for each bootstrap sample.
+- We can instead compute $\widehat{se}^*_b$ using a nonparametric delta method @wasserman2006all.
+
+### Sources
+
+<iframe width="90%" height="520" src="wasserman.pdf"></iframe>
+
+:::
+
+
