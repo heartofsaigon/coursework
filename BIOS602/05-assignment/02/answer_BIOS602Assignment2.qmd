@@ -2,22 +2,7 @@
 title: "BIOS602: Assignment 2"
 #date: '`r Sys.Date()`'
 author: Nam-Anh Tran
-format:
-  html: default
-  pdf:
-    toc: true
-    mathspec: true
-    include-in-header:
-      - text: |
-          \usepackage{setspace}
-          \usepackage{float}
-          \usepackage{fontspec}
-          \usepackage{scrlayer-scrpage}
-          \AtBeginEnvironment{Shaded}{\singlespace}
-          \rohead{Nam-Anh}
-          \cohead{BIO602/Assignment2}
-          \usepackage{fvextra}
-          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+format: html
 highlight-style: tango
 linestretch: 1.5
 #mainfont: "Georgia"
