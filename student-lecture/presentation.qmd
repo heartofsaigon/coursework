@@ -184,7 +184,7 @@ Let's consider $\{x_1,x_2,x_3\}$, we have
 So, 
 
 $$
-P(M = M2) =weight\times P(M2|M \in \{M2,M3,M4\})
+P(M = M2) =weight_{(\text{for each model that has 1 covariate})}\times P(M2|M \in \{M2,M3,M4\})
 $$
 
 :::
